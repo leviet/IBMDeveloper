@@ -1,9 +1,9 @@
 package com.vnexit.fingerprint.datamodel;
 
 public class Pixel {
-	private int mRed;
-	private int mGreen;
-	private int mBlue;
+	public int mRed;
+	public int mGreen;
+	public int mBlue;
 	
 	//Khoi tao khong tham so
 	public Pixel(){}

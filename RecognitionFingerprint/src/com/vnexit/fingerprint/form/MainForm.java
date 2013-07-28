@@ -14,11 +14,13 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.vnexit.fingerprint.gaborfilter.GaborFilter;
+
 public class MainForm extends JFrame{
 	private JButton selectImage=new JButton();
     private JFileChooser chooserImage = new JFileChooser();
-    private FingerImage oldFinger = new FingerImage("/home/phoenix/Downloads/tim.jpg");
-    private FingerImage newFinger = new FingerImage("/home/phoenix/Downloads/tim.jpg");
+    private FingerImage oldFinger = new FingerImage();
+    private GaborFilter newFinger = new GaborFilter();
     private JPanel pFunction=new JPanel();
     
     public MainForm(String title){
@@ -36,19 +38,18 @@ public class MainForm extends JFrame{
     	pFunction.add(selectImage,BorderLayout.EAST);
     	add(pFunction,BorderLayout.PAGE_START);
     	add(oldFinger,BorderLayout.CENTER);
+//    	add(newFinger,BorderLayout.CENTER);
     }
     protected void selectImageActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
     	String fileName="";
-    	FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
-    	chooserImage.setFileFilter(filter);
     	int r = chooserImage.showOpenDialog(new JFrame());
     	if (r == JFileChooser.APPROVE_OPTION) {
-    		fileName = chooserImage.getSelectedFile().getPath();
+    		fileName = chooserImage.getSelectedFile().getName();
     	}
     	System.out.print(fileName);
-    	oldFinger=new FingerImage(fileName);
-
+    	oldFinger.rePaintLink(fileName);
+//    	newFinger.rePaintLink(fileName);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
