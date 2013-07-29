@@ -8,7 +8,7 @@ public class ImageProcess {
 	private  BufferedImage mBimg;
 	
 	public ImageProcess(BufferedImage bmg){
-		this.mBimg=mBimg;
+		this.mBimg=bmg;
 	}
 	
     public Pixel[][] getData() {
@@ -37,6 +37,19 @@ public class ImageProcess {
                 wr.setPixel(i, j, p);
             }
         }
+    }
+    
+    public Pixel[][] grayExchange() {
+    	Pixel[][] pi= getData();
+        int s = 0;
+        for (int i = 0; i < mBimg.getWidth(); i++) {
+            for (int j = 0; j < mBimg.getHeight(); j++) {
+                s = Math.max(pi[i][j].mRed, Math.max(pi[i][j].mGreen, pi[i][j].mBlue));
+                Pixel p = new Pixel(s, s, s);
+                pi[i][j] = p;
+            }
+        }
+        return pi;
     }
 
 }
