@@ -1,42 +1,60 @@
 package com.vnexit.fingerprint.gaborfilter;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.form.FingerImage;
 
-public class GaborFilter extends FingerImage{
-	
+public class GaborFilter extends JPanel{
+	BufferedImage mFinger;
 	Pixel[][] pi;
-	ImageProcess imgProcess=new ImageProcess(this.mFinger);
+	ImageProcess imgProcess;
 	WritableRaster wr;
 
-	public GaborFilter(){
-		pi= imgProcess.getData();
-		wr = this.mFinger.getRaster();
+	public GaborFilter() {
+		try {
+			mFinger = ImageIO.read(getClass().getResource("../form/vantay1/16_1.png"));
+			imgProcess =new ImageProcess(mFinger);
+			wr=mFinger.getRaster();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Graphics g = mFinger.getGraphics();
+		g.drawImage(mFinger, 0, 0, null);
 	}
 	
-    public Pixel[][] grayExchange() {
-    	pi= imgProcess.getData();
-        int s = 0;
-        for (int i = 0; i < this.mFinger.getWidth(); i++) {
-            for (int j = 0; j < this.mFinger.getHeight(); j++) {
-                s = Math.max(pi[i][j].mRed, Math.max(pi[i][j].mGreen, pi[i][j].mBlue));
-                Pixel p = new Pixel(s, s, s);
-                pi[i][j] = p;
-            }
-        }
-        return pi;
-    }
+	public void rePaintLink(String link){
+		try {
+			mFinger = ImageIO.read(getClass().getResource("../form/vantay1/"+link));
+			imgProcess =new ImageProcess(mFinger);
+			wr=mFinger.getRaster();
+			repaint();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void paint(Graphics g) {
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		g2d.drawImage(mFinger, null, 0, 0);
+	}
+
     
-    public void chuanhoa() {
-        pi = grayExchange();
-        imgProcess.setData(wr, pi);
-        repaint();
+    public void tests() {
+    	pi= imgProcess.grayExchange();
+    	imgProcess.setData(wr, pi);
+    	repaint();
     }
     
 }

@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 
 public class FingerImage extends JPanel {
 	
-	protected BufferedImage mFinger;
+	public BufferedImage mFinger;
 	
 	public FingerImage() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("1_1.bmp"));
+			mFinger = ImageIO.read(getClass().getResource("vantay1/16_1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
