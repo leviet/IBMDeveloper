@@ -20,7 +20,7 @@ public class TestImageProcess {
 	@Test
 	public void testConvertImagetoGray() throws IOException {
 		mFinger = ImageIO.read(getClass().getResource(
-				"../form/vantay1/vantay2.png"));
+				"../datatest/vantay2.png"));
 		imgProcess = new ImageProcess(mFinger);
 		wr = mFinger.getRaster();
 		pi = imgProcess.grayExchange();
@@ -28,7 +28,6 @@ public class TestImageProcess {
 		for (int i = 0; i < mFinger.getWidth(); i++) {
 			for (int j = 0; j < mFinger.getHeight(); j++) {
 				Assert.assertEquals(pi[i][j].mBlue, pi[i][j].mGreen);
-				System.out.println(pi[i][j].mBlue);
 			}
 		}
 	}

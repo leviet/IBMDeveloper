@@ -22,7 +22,7 @@ public class GaborFilter extends JPanel{
 
 	public GaborFilter() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("../form/vantay1/16_1.png"));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/16_1.png"));
 			imgProcess =new ImageProcess(mFinger);
 			wr=mFinger.getRaster();
 		} catch (IOException e) {
@@ -34,7 +34,7 @@ public class GaborFilter extends JPanel{
 	
 	public void rePaintLink(String link){
 		try {
-			mFinger = ImageIO.read(getClass().getResource("../form/vantay1/"+link));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/"+link));
 			imgProcess =new ImageProcess(mFinger);
 			wr=mFinger.getRaster();
 			repaint();
