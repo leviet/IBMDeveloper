@@ -6,11 +6,11 @@ import java.awt.image.WritableRaster;
 
 public class ImageProcess {
 	private  BufferedImage mBimg;
-	private Pixel[][] pi;
+	private Pixel[][] mPi;
 	
 	public ImageProcess(BufferedImage bmg){
 		this.mBimg=bmg;
-		pi= getData();
+		mPi= getData();
 	}
 	
     public Pixel[][] getData() {
@@ -43,8 +43,8 @@ public class ImageProcess {
     
     public Pixel[][] grayExchange(Pixel[][] pi) {
         int s = 0;
-        for (int i = 0; i < mBimg.getWidth(); i++) {
-            for (int j = 0; j < mBimg.getHeight(); j++) {
+        for (int i = 0; i < pi.length; i++) {
+            for (int j = 0; j < pi.length; j++) {
                 s = Math.max(pi[i][j].mRed, Math.max(pi[i][j].mGreen, pi[i][j].mBlue));
                 Pixel p = new Pixel(s, s, s);
                 pi[i][j] = p;
