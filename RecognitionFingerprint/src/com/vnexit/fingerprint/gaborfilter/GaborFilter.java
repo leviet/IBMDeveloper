@@ -25,6 +25,7 @@ public class GaborFilter extends JPanel{
 			mFinger = ImageIO.read(getClass().getResource("../datatest/16_1.png"));
 			imgProcess =new ImageProcess(mFinger);
 			wr=mFinger.getRaster();
+			pi=imgProcess.getData();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,6 +38,7 @@ public class GaborFilter extends JPanel{
 			mFinger = ImageIO.read(getClass().getResource("../datatest/"+link));
 			imgProcess =new ImageProcess(mFinger);
 			wr=mFinger.getRaster();
+			pi=imgProcess.getData();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,7 +54,7 @@ public class GaborFilter extends JPanel{
 
     
     public void tests() {
-    	pi= imgProcess.grayExchange();
+    	pi= imgProcess.grayExchange(pi);
     	imgProcess.setData(wr, pi);
     	repaint();
     }

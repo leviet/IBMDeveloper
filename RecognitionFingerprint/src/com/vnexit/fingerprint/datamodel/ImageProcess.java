@@ -6,9 +6,11 @@ import java.awt.image.WritableRaster;
 
 public class ImageProcess {
 	private  BufferedImage mBimg;
+	private Pixel[][] pi;
 	
 	public ImageProcess(BufferedImage bmg){
 		this.mBimg=bmg;
+		pi= getData();
 	}
 	
     public Pixel[][] getData() {
@@ -39,8 +41,7 @@ public class ImageProcess {
         }
     }
     
-    public Pixel[][] grayExchange() {
-    	Pixel[][] pi= getData();
+    public Pixel[][] grayExchange(Pixel[][] pi) {
         int s = 0;
         for (int i = 0; i < mBimg.getWidth(); i++) {
             for (int j = 0; j < mBimg.getHeight(); j++) {
@@ -51,5 +52,9 @@ public class ImageProcess {
         }
         return pi;
     }
-
+    
+    public Pixel[][] ConvolutionImage(Pixel[][] pi,int[][] matrix){
+    	
+    	return pi;
+    }
 }
