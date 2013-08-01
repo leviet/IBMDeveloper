@@ -23,7 +23,8 @@ public class TestImageProcess {
 				"../datatest/vantay2.png"));
 		imgProcess = new ImageProcess(mFinger);
 		wr = mFinger.getRaster();
-		pi = imgProcess.grayExchange();
+		pi=imgProcess.getData();
+		pi = imgProcess.grayExchange(pi);
 		Assert.assertEquals(pi.length, mFinger.getHeight());
 		for (int i = 0; i < mFinger.getWidth(); i++) {
 			for (int j = 0; j < mFinger.getHeight(); j++) {
