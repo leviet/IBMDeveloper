@@ -17,7 +17,7 @@ public class FingerImage extends JPanel {
 	
 	public FingerImage() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("vantay1/16_1.png"));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/16_1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -27,7 +27,8 @@ public class FingerImage extends JPanel {
 	
 	public void rePaintLink(String link){
 		try {
-			mFinger = ImageIO.read(getClass().getResource("vantay1/"+link));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/"+link));
+			revalidate();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();

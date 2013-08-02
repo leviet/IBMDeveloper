@@ -39,6 +39,7 @@ public class GaborFilter extends JPanel{
 			imgProcess =new ImageProcess(mFinger);
 			wr=mFinger.getRaster();
 			pi=imgProcess.getData();
+			revalidate();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +16,9 @@ import com.vnexit.fingerprint.gaborfilter.GaborFilter;
 public class Fom extends JFrame {
 
 	private JPanel contentPane;
-
+	private JFileChooser chooserImage = new JFileChooser();
+	FingerImage panel = new FingerImage();
+	GaborFilter panel_1 = new GaborFilter();
 	/**
 	 * Launch the application.
 	 */
@@ -43,11 +46,10 @@ public class Fom extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new GaborFilter();
 		panel.setBounds(10, 11, 248, 338);
 		contentPane.add(panel);
 
-		JPanel panel_1 = new JPanel();
+		
 		panel_1.setBounds(268, 11, 248, 338);
 		contentPane.add(panel_1);
 
@@ -57,8 +59,32 @@ public class Fom extends JFrame {
 		panel_2.setLayout(null);
 
 		JButton btnGrayChange = new JButton("Gray Change");
-		btnGrayChange.setBounds(10, 11, 95, 23);
+		btnGrayChange.setBounds(12, 75, 145, 33);
 		panel_2.add(btnGrayChange);
+		
+		JButton btnNewButton = new JButton("Select Image");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String fileName="";
+		    	int r = chooserImage.showOpenDialog(new JFrame());
+		    	if (r == JFileChooser.APPROVE_OPTION) {
+		    		fileName = chooserImage.getSelectedFile().getName();
+		    	}
+		    	System.out.print(fileName);
+		    	panel.rePaintLink(fileName);
+		    	panel_1.rePaintLink(fileName);
+			}
+		});
+		btnNewButton.setBounds(12, 12, 145, 33);
+		panel_2.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(169, 12, 125, 33);
+		panel_2.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.setBounds(169, 75, 125, 33);
+		panel_2.add(btnNewButton_2);
 		btnGrayChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				grayChangeActionPerformed(evt);
@@ -68,5 +94,6 @@ public class Fom extends JFrame {
 
 	protected void grayChangeActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
+		panel_1.tests();
 	}
 }
