@@ -32,5 +32,16 @@ public class TestImageProcess {
 			}
 		}
 	}
-
+	@Test
+	public void TestConvolutionMatrixImage(){
+		int[][] matrix={{1,2,1},{2,1,2},{1,2,1}};
+		Pixel pi=new Pixel(1,1,1);
+		Pixel pi1=new Pixel(2,2,2);
+		Pixel pi2=new Pixel(3,3,3);
+		Pixel[][] a={{pi,pi1,pi2}};
+		a=imgProcess.ConvolutionImage(a, matrix);
+		Assert.assertEquals(a[0][0].mBlue, 8);
+		Assert.assertEquals(a[0][1].mBlue, 10);
+		Assert.assertEquals(a[0][0].mBlue, a[0][0].mGreen);
+	}
 }
