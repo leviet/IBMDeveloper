@@ -1,6 +1,9 @@
 package com.vnexit.fingerprint.datamodel;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
@@ -8,12 +11,11 @@ public class ImageProcess {
 	private  BufferedImage mBimg;
 	private Pixel[][] mPi;
 	
-	public ImageProcess(BufferedImage bmg){
-		this.mBimg=bmg;
-		mPi= getData();
+	public ImageProcess(){
+		
 	}
 	
-    public Pixel[][] getData() {
+    public Pixel[][] getData(BufferedImage mBimg) {
         Raster r = mBimg.getRaster();
         Pixel[][] data = new Pixel[r.getWidth()][r.getHeight()];
         int[] v = new int[3];
@@ -53,8 +55,14 @@ public class ImageProcess {
         return pi;
     }
     
-    public Pixel[][] ConvolutionImage(Pixel[][] pi,int[][] matrix){
-    	
-    	return pi;
+    public BufferedImage ConvolutionImage(BufferedImage mBimg,Kernel matrix){
+    	BufferedImage img=null;
+    	try{
+    		BufferedImageOp b=new ConvolveOp(matrix);
+    		img=b.filter(mBimg, null);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return img;
     }
 }
