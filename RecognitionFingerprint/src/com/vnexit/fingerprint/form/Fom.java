@@ -78,7 +78,12 @@ public class Fom extends JFrame {
 		btnNewButton.setBounds(12, 12, 145, 33);
 		panel_2.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Convolution");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.Convolution();
+			}
+		});
 		btnNewButton_1.setBounds(169, 12, 125, 33);
 		panel_2.add(btnNewButton_1);
 		
