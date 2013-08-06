@@ -40,7 +40,6 @@ public class GaborFilter extends JPanel{
 			imgProcess =new ImageProcess();
 			wr=mFinger.getRaster();
 			pi=imgProcess.getData(mFinger);
-			revalidate();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,6 +64,13 @@ public class GaborFilter extends JPanel{
     	Kernel kernel = new Kernel(3, 3, sharpen);
     	BufferedImage img=imgProcess.ConvolutionImage(mFinger, kernel);
     	pi=imgProcess.getData(img);
+    	imgProcess.setData(wr, pi);
+    	repaint();
+    }
+    public void IncreaseFinger(){
+    	pi= imgProcess.grayExchange(pi);
+    	imgProcess.setData(wr, pi);
+    	pi=imgProcess.IncreaseFinger(pi);
     	imgProcess.setData(wr, pi);
     	repaint();
     }

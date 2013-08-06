@@ -87,7 +87,12 @@ public class Fom extends JFrame {
 		btnNewButton_1.setBounds(169, 12, 125, 33);
 		panel_2.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("Increase");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.IncreaseFinger();
+			}
+		});
 		btnNewButton_2.setBounds(169, 75, 125, 33);
 		panel_2.add(btnNewButton_2);
 		btnGrayChange.addActionListener(new ActionListener() {
