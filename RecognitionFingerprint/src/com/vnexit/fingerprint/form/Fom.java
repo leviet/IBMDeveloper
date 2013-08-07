@@ -91,6 +91,7 @@ public class Fom extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.IncreaseFinger();
+				panel_1.Gabor();
 			}
 		});
 		btnNewButton_2.setBounds(169, 75, 125, 33);

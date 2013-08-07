@@ -15,7 +15,7 @@ import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.form.FingerImage;
 
-public class GaborFilter extends JPanel{
+public class GaborFilter extends JPanel {
 	BufferedImage mFinger;
 	Pixel[][] pi;
 	ImageProcess imgProcess;
@@ -23,29 +23,31 @@ public class GaborFilter extends JPanel{
 
 	public GaborFilter() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("../datatest/16_1.png"));
-			imgProcess =new ImageProcess();
-			wr=mFinger.getRaster();
-			pi=imgProcess.getData(mFinger);
+			mFinger = ImageIO.read(getClass().getResource(
+					"../datatest/16_1.png"));
+			imgProcess = new ImageProcess();
+			wr = mFinger.getRaster();
+			pi = imgProcess.getData(mFinger);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		Graphics g = mFinger.getGraphics();
 		g.drawImage(mFinger, 0, 0, null);
 	}
-	
-	public void rePaintLink(String link){
+
+	public void rePaintLink(String link) {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("../datatest/"+link));
-			imgProcess =new ImageProcess();
-			wr=mFinger.getRaster();
-			pi=imgProcess.getData(mFinger);
+			mFinger = ImageIO.read(getClass()
+					.getResource("../datatest/" + link));
+			imgProcess = new ImageProcess();
+			wr = mFinger.getRaster();
+			pi = imgProcess.getData(mFinger);
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void paint(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -53,26 +55,165 @@ public class GaborFilter extends JPanel{
 		g2d.drawImage(mFinger, null, 0, 0);
 	}
 
-    
-    public void tests() {
-    	pi= imgProcess.grayExchange(pi);
-    	imgProcess.setData(wr, pi);
-    	repaint();
-    }
-    public void Convolution(){
-    	float[] sharpen = {1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f, 1.0f};
-    	Kernel kernel = new Kernel(3, 3, sharpen);
-    	BufferedImage img=imgProcess.ConvolutionImage(mFinger, kernel);
-    	pi=imgProcess.getData(img);
-    	imgProcess.setData(wr, pi);
-    	repaint();
-    }
-    public void IncreaseFinger(){
-    	pi= imgProcess.grayExchange(pi);
-    	imgProcess.setData(wr, pi);
-    	pi=imgProcess.IncreaseFinger(pi);
-    	imgProcess.setData(wr, pi);
-    	repaint();
-    }
-    
+	public void tests() {
+		pi = imgProcess.grayExchange(pi);
+		imgProcess.setData(wr, pi);
+		repaint();
+	}
+
+	public void Convolution() {
+		float[] sharpen = { 1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f,
+				1.0f };
+		Kernel kernel = new Kernel(3, 3, sharpen);
+		BufferedImage img = imgProcess.ConvolutionImage(mFinger, kernel);
+		pi = imgProcess.getData(img);
+		imgProcess.setData(wr, pi);
+		repaint();
+	}
+
+	public void IncreaseFinger() {
+		pi = imgProcess.grayExchange(pi);
+		imgProcess.setData(wr, pi);
+		pi = imgProcess.IncreaseFinger(pi);
+		imgProcess.setData(wr, pi);
+		repaint();
+	}
+
+	public void Gabor() {
+		float[] hx = { 1.0f, 0.0f, -1.0f, 2.0f, 0f, -2.0f, 1.0f, 0.0f, -1.0f };
+		float[] hy = { 1.0f, 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, -2.0f, -1.0f };
+		// double[][]
+		// gaussian={{1/273,4/273,7/273,4/273f,1/273},{4/273,16/273,26/273,16/273,4/273},{7/273,26/273,41/273,26/273,7/273},{4/273,16/273,26/273,16/273,4/273},{1/273,4/273,7/273,4/273,1/273}};
+
+		Kernel ke1 = new Kernel(3, 3, hx);
+		Kernel ke2 = new Kernel(3, 3, hy);
+
+		BufferedImage imgx = imgProcess.ConvolutionImage(mFinger, ke1);
+		BufferedImage imgy = imgProcess.ConvolutionImage(mFinger, ke2);
+
+		Pixel[][] sobelX = imgProcess.getData(imgx);
+		Pixel[][] sobelY = imgProcess.getData(imgy);
+
+		double teta[][] = getDirection(sobelX, sobelY);
+
+		bolocGabor(pi, teta);
+		repaint();
+		// double omegaX[][]= new double[sobelX.length][sobelX[0].length];
+		// double omegaY[][]= new double[sobelX.length][sobelX[0].length];
+
+		// for (int i = 8; i < sobelX.length - 8; i++) {
+		// for (int j = 8; j < sobelX[0].length - 8; j++) {
+		// omegaX[i][j]=Math.cos(2*teta[i][j]);
+		// omegaY[i][j]=Math.sin(2*teta[i][j]);
+		// }
+		// }
+
+		// double newTeta[][]= filterGaussian(gaussian, omegaX, omegaY);
+		//
+		// for (int i = 8; i < sobelX.length - 8; i++) {
+		// for (int j = 8; j < sobelX[0].length - 8; j++) {
+		// System.out.print(newTeta[i][j]+" ");
+		// }
+		// System.out.print("\n");
+		// }
+	}
+
+	public double[][] getDirection(Pixel[][] sobelX, Pixel[][] sobelY) {
+		double[][] phi = new double[sobelX.length][sobelX[0].length];
+		double Gxy = 0;
+		double Gxx = 0;
+		double Gyy = 0;
+		double G = 0;
+		double count = 0;
+		for (int i = 8; i < sobelX.length - 8; i++) {
+			for (int j = 8; j < sobelX[0].length - 8; j++) {
+				for (int row = i - 8; row <= i + 8; row++) {
+					for (int col = j - 8; col <= j + 8; col++) {
+						Gxy = Gxy
+								+ (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
+						Gxx = Math.pow(sobelX[row][col].mBlue, 2);
+						Gyy = Math.pow(sobelY[row][col].mBlue, 2);
+						G = G + (Gxx - Gyy);
+					}
+				}
+				count = (Math.atan2(2 * Gxy, G)) / 2;
+				phi[i][j] = count;
+				count = 0;
+				Gxy = 0;
+				Gxx = 0;
+				Gyy = 0;
+				G = 0;
+			}
+		}
+		return phi;
+	}
+
+	public double[][] filterGaussian(double[][] GauMatrix, double[][] omegaX,
+			double[][] omegaY) {
+		double[][] phi = new double[omegaX.length][omegaX[0].length];
+		for (int i = 8; i < omegaX.length - 8; i++) {
+			for (int j = 8; j < omegaX[0].length - 8; j++) {
+				double phiX = 0;
+				double phiY = 0;
+				double count = 0;
+				for (int row = 0; row < 5; row++) {
+					for (int col = 0; col < 5; col++) {
+						phiX += GauMatrix[row][col]
+								* omegaX[i - row / 2 * 5][j - col / 2 * 5];
+						phiY += GauMatrix[row][col]
+								* omegaY[i - row / 2 * 5][j - col / 2 * 5];
+					}
+				}
+				count = Math.atan(phiY / phiX) / 2;
+				phi[i][j] = count;
+			}
+		}
+		return phi;
+	}
+
+	public void bolocGabor(Pixel[][] pi, double teta[][]) {
+		int[][] gabor = new int[pi.length][pi[0].length];
+		double sum = 0;
+		double f = 0.1;
+		double deltaX = 3.1;
+		double deltaY = 2.2;
+		for (int i = 8; i < pi.length - 8; i++) {
+			for (int j = 8; j < pi[0].length - 8; j++) {
+				for (int x = i - 8; x <= i + 8; x++) {
+					for (int y = j - 8; y <= j + 8; y++) {
+						int x0 = x - i;
+						int y0 = y - j;
+						double X = x0 * Math.cos(teta[i][j]) + y0 * Math.sin(teta[i][j]);
+						double Y = -x0 * Math.sin(teta[i][j]) + y0 * Math.cos(teta[i][j]);
+						double gb = Math.exp(-0.5* ((Math.pow(X, 2) / (Math.pow(deltaX,2))) + (Math.pow(Y, 2) / (Math.pow(deltaY, 2)))))* Math.cos(2 * Math.PI * f * X);
+						sum = sum + gb * (double) pi[x][y].mBlue;
+					}
+				}
+				gabor[i][j] = (int) sum;
+				sum = 0;
+			}
+		}
+		GaborFilter(wr, gabor);
+		pi = imgProcess.getData(mFinger);
+		imgProcess.setData(wr, pi);
+	}
+
+	private void GaborFilter(WritableRaster wr, int[][] gabor) {
+		int[] p = new int[3];
+		for (int i = 0; i < gabor.length; i++) {
+			for (int j = 0; j < gabor[0].length; j++) {
+				int a = (int) gabor[i][j];
+				if (a > 255) {
+					a = 255;
+				}
+				if (a < 0) {
+					a = 0;
+				}
+				p[0] = a;
+				p[1] = a;
+				p[2] = a;
+				wr.setPixel(i, j, p);
+			}
+		}
+	}
 }
