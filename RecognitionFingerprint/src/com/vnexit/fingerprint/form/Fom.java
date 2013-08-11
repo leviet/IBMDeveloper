@@ -91,11 +91,19 @@ public class Fom extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.IncreaseFinger();
-				panel_1.Gabor();
 			}
 		});
 		btnNewButton_2.setBounds(169, 75, 125, 33);
 		panel_2.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Gabor Fillter");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.Gabor();
+			}
+		});
+		btnNewButton_3.setBounds(308, 12, 133, 33);
+		panel_2.add(btnNewButton_3);
 		btnGrayChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				grayChangeActionPerformed(evt);
@@ -104,7 +112,6 @@ public class Fom extends JFrame {
 	}
 
 	protected void grayChangeActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
 		panel_1.tests();
 	}
 }
