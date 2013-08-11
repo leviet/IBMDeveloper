@@ -129,8 +129,7 @@ public class GaborFilter extends JPanel {
 			for (int j = 8; j < sobelX[0].length - 8; j++) {
 				for (int row = i - 8; row <= i + 8; row++) {
 					for (int col = j - 8; col <= j + 8; col++) {
-						Gxy = Gxy
-								+ (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
+						Gxy = Gxy + (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
 						Gxx = Math.pow(sobelX[row][col].mBlue, 2);
 						Gyy = Math.pow(sobelY[row][col].mBlue, 2);
 						G = G + (Gxx - Gyy);
@@ -148,8 +147,7 @@ public class GaborFilter extends JPanel {
 		return phi;
 	}
 
-	public double[][] filterGaussian(double[][] GauMatrix, double[][] omegaX,
-			double[][] omegaY) {
+	public double[][] filterGaussian(double[][] GauMatrix, double[][] omegaX,double[][] omegaY) {
 		double[][] phi = new double[omegaX.length][omegaX[0].length];
 		for (int i = 8; i < omegaX.length - 8; i++) {
 			for (int j = 8; j < omegaX[0].length - 8; j++) {
@@ -158,10 +156,8 @@ public class GaborFilter extends JPanel {
 				double count = 0;
 				for (int row = 0; row < 5; row++) {
 					for (int col = 0; col < 5; col++) {
-						phiX += GauMatrix[row][col]
-								* omegaX[i - row / 2 * 5][j - col / 2 * 5];
-						phiY += GauMatrix[row][col]
-								* omegaY[i - row / 2 * 5][j - col / 2 * 5];
+						phiX += GauMatrix[row][col] * omegaX[i - row / 2 * 5][j - col / 2 * 5];
+						phiY += GauMatrix[row][col] * omegaY[i - row / 2 * 5][j - col / 2 * 5];
 					}
 				}
 				count = Math.atan(phiY / phiX) / 2;
@@ -174,9 +170,9 @@ public class GaborFilter extends JPanel {
 	public void bolocGabor(Pixel[][] pi, double teta[][]) {
 		int[][] gabor = new int[pi.length][pi[0].length];
 		double sum = 0;
-		double f = 0.1;
-		double deltaX = 3.1;
-		double deltaY = 2.2;
+		double f = 0.228;
+		double deltaX = 1.3;
+		double deltaY = 0.4;
 		for (int i = 8; i < pi.length - 8; i++) {
 			for (int j = 8; j < pi[0].length - 8; j++) {
 				for (int x = i - 8; x <= i + 8; x++) {
