@@ -104,6 +104,15 @@ public class Fom extends JFrame {
 		});
 		btnNewButton_3.setBounds(308, 12, 133, 33);
 		panel_2.add(btnNewButton_3);
+		
+		JButton btnNewButton_4 = new JButton("New button");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.threshold();
+			}
+		});
+		btnNewButton_4.setBounds(306, 75, 135, 33);
+		panel_2.add(btnNewButton_4);
 		btnGrayChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				grayChangeActionPerformed(evt);

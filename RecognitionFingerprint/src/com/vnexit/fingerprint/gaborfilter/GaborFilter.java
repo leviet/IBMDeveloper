@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
+import com.vnexit.fingerprint.datamodel.SplitThreshold;
 import com.vnexit.fingerprint.form.FingerImage;
 
 public class GaborFilter extends JPanel {
@@ -57,6 +58,16 @@ public class GaborFilter extends JPanel {
 
 	public void tests() {
 		pi = imgProcess.grayExchange(pi);
+		imgProcess.setData(wr, pi);
+		repaint();
+	}
+	public void threshold(){
+		pi=imgProcess.getData(mFinger);
+		pi=imgProcess.grayExchange(pi);
+		SplitThreshold sp=new SplitThreshold();
+		pi=sp.newSplitThreshold(pi);
+//		int thre=sp.getThreshold(pi);
+//		pi=sp.splitThreshold(pi,thre);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
@@ -127,8 +138,8 @@ public class GaborFilter extends JPanel {
 		double count = 0;
 		for (int i = 8; i < sobelX.length - 8; i++) {
 			for (int j = 8; j < sobelX[0].length - 8; j++) {
-				for (int row = i - 8; row <= i + 8; row++) {
-					for (int col = j - 8; col <= j + 8; col++) {
+				for (int row = i - 8; row < i + 8; row++) {
+					for (int col = j - 8; col < j + 8; col++) {
 						Gxy = Gxy + (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
 						Gxx = Math.pow(sobelX[row][col].mBlue, 2);
 						Gyy = Math.pow(sobelY[row][col].mBlue, 2);

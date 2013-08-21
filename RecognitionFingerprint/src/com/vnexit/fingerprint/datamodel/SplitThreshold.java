@@ -1,6 +1,6 @@
 package com.vnexit.fingerprint.datamodel;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
+
 
 public class SplitThreshold {
 
@@ -9,7 +9,8 @@ public class SplitThreshold {
 	}
 
 	public int[] getHistogram(Pixel[][] pi) {
-		int[] his = new int[255];
+		int[] his = new int[256];
+		System.out.print("Histogram: ");
 		for (int i = 0; i < 256; i++) {
 			int tong = 0;
 			for (int y = 0; y < pi.length; y++) {
@@ -19,15 +20,92 @@ public class SplitThreshold {
 				}
 			}
 			his[i] = tong;
+			System.out.print(tong+" ");
 		}
 		return his;
 	}
 	
-	private float[] getDistance(Postition a, Postition b, int[] histogram){
-		float[] d=new float[255];
-		return d;
+	private int getDistance(Postition a, Postition b, int[] histogram){
+		float d=0;
+		float max=0;
+		int k=0;
+		float B=-11*(a.getA()-b.getA());
+		float A=1*(a.getB()-b.getB());
+		float C=-a.getA()*(a.getB()-b.getB()) + a.getB()*(a.getA()-b.getA());
+		for(int i=a.getA();i<b.getA();i++){
+			d=(float) Math.abs((A*i+B*histogram[i]+C)/Math.sqrt(A*A+B*B));
+			if(max<d){
+				max=d;
+				k=i;
+			}
+		}
+		return k;
 	}
-
+	public int getThreshold(Pixel[][] pi){
+		int[] his=getHistogram(pi);
+		Postition min=getMinPostition(his);
+		Postition max=getMaxPosition(his);
+		return getDistance(min, max, his);
+	}
+	public Pixel[][] splitThreshold(Pixel[][] pi, int thres){
+		Pixel tmp=new Pixel();
+		for(int i=0;i<pi.length;i++){
+			for(int j=0;j<pi[0].length;j++){
+				if(pi[i][j].mBlue>thres){
+					tmp=new Pixel(255,255,255);
+					pi[i][j]=tmp;
+				}else{
+					tmp=new Pixel(0,0,0);
+					pi[i][j]=tmp;
+				}
+			}
+		}
+		return pi;
+	}
+	
+	private Postition getMaxPosition(int[] histogram){
+		int max=2;
+		for(int i=3;i<256;i++){
+			if(histogram[i]>histogram[max]){
+				max=i;
+			}
+		}
+		
+		return new Postition(max, histogram[max]);
+	}
+	private Postition getMinPostition(int[] histogram){
+		int min=255;
+		for(int i=1;i<256;i++){
+			if((min>i) && (histogram[min]>=histogram[i]))
+				min=i;
+		}
+		return new Postition(min, histogram[min]);
+	}
+	
+	public Pixel[][] newSplitThreshold(Pixel[][] pi){
+		int i=0,j=0,m=0,n=0;
+		for(i=4;i<pi.length-4;i++){
+			System.out.print("\n");
+			for(j=4;j<pi[0].length-4;j++){
+				int sum=0;
+				for(m=i-4;m<i+4;m++){
+					for(n=j-4;n<j+4;n++){
+						sum+=pi[m][n].mBlue;
+					}
+				}
+				if(pi[i][j].mBlue>(sum/64)){
+					Pixel tmp=new Pixel(255, 255, 255);
+					pi[i][j]=tmp;
+				}else{
+					Pixel tmp=new Pixel(0, 0, 0);
+					pi[i][j]=tmp;
+				}
+				System.out.print(sum/64+" ");
+			}
+		}
+		return pi;
+	}
+	
 	private class Postition {
 		private int a;
 		private int b;
