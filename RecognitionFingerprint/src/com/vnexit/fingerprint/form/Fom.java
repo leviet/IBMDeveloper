@@ -105,7 +105,7 @@ public class Fom extends JFrame {
 		btnNewButton_3.setBounds(308, 12, 133, 33);
 		panel_2.add(btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("New button");
+		JButton btnNewButton_4 = new JButton("Split Threshold");
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.threshold();

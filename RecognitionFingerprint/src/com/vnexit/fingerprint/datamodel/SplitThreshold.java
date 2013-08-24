@@ -81,19 +81,23 @@ public class SplitThreshold {
 		}
 		return new Postition(min, histogram[min]);
 	}
-	
+	/*
+	 * @return Ma tran sau khi tach nguong
+	 * Tinh trung binh gia tri diem anh trong 16 o lan can
+	 * Neu gia tri diem anh lon hon gia tri tb -> 255 else ->0
+	 */
 	public Pixel[][] newSplitThreshold(Pixel[][] pi){
 		int i=0,j=0,m=0,n=0;
-		for(i=4;i<pi.length-4;i++){
+		for(i=8;i<pi.length-8;i++){
 			System.out.print("\n");
-			for(j=4;j<pi[0].length-4;j++){
+			for(j=8;j<pi[0].length-8;j++){
 				int sum=0;
-				for(m=i-4;m<i+4;m++){
-					for(n=j-4;n<j+4;n++){
+				for(m=i-8;m<i+8;m++){
+					for(n=j-8;n<j+8;n++){
 						sum+=pi[m][n].mBlue;
 					}
 				}
-				if(pi[i][j].mBlue>(sum/64)){
+				if(pi[i][j].mBlue>(sum/256)){
 					Pixel tmp=new Pixel(255, 255, 255);
 					pi[i][j]=tmp;
 				}else{

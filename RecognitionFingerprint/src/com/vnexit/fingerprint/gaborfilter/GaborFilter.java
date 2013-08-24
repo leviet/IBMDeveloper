@@ -61,6 +61,8 @@ public class GaborFilter extends JPanel {
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
+	
+	//Tach nguong tu dong
 	public void threshold(){
 		pi=imgProcess.getData(mFinger);
 		pi=imgProcess.grayExchange(pi);
@@ -82,7 +84,7 @@ public class GaborFilter extends JPanel {
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
-
+	//Tang cuong hinh anh
 	public void IncreaseFinger() {
 		pi = imgProcess.grayExchange(pi);
 		imgProcess.setData(wr, pi);
@@ -92,42 +94,31 @@ public class GaborFilter extends JPanel {
 	}
 
 	public void Gabor() {
+		//Ma tran Sobel theo truc x
 		float[] hx = { 1.0f, 0.0f, -1.0f, 2.0f, 0f, -2.0f, 1.0f, 0.0f, -1.0f };
+		//Ma tran Sobel theo truc y
 		float[] hy = { 1.0f, 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, -2.0f, -1.0f };
 		// double[][]
 		// gaussian={{1/273,4/273,7/273,4/273f,1/273},{4/273,16/273,26/273,16/273,4/273},{7/273,26/273,41/273,26/273,7/273},{4/273,16/273,26/273,16/273,4/273},{1/273,4/273,7/273,4/273,1/273}};
-
+		
+		//Khoi tao 2 ma tran Kernel voi dau vao la 2 ma tran Sobel da tao o tren
 		Kernel ke1 = new Kernel(3, 3, hx);
 		Kernel ke2 = new Kernel(3, 3, hy);
-
+		
+		//Nhap chap anh dau vao lan luot voi 2 ma tran Sobel
 		BufferedImage imgx = imgProcess.ConvolutionImage(mFinger, ke1);
 		BufferedImage imgy = imgProcess.ConvolutionImage(mFinger, ke2);
 
+		//Doc du lieu tu anh sau khi da nhan chap voi ma tran Sobel
 		Pixel[][] sobelX = imgProcess.getData(imgx);
 		Pixel[][] sobelY = imgProcess.getData(imgy);
 
+		//Tinh huong gradien cua diem anh
 		double teta[][] = getDirection(sobelX, sobelY);
 
 		bolocGabor(pi, teta);
 		repaint();
-		// double omegaX[][]= new double[sobelX.length][sobelX[0].length];
-		// double omegaY[][]= new double[sobelX.length][sobelX[0].length];
 
-		// for (int i = 8; i < sobelX.length - 8; i++) {
-		// for (int j = 8; j < sobelX[0].length - 8; j++) {
-		// omegaX[i][j]=Math.cos(2*teta[i][j]);
-		// omegaY[i][j]=Math.sin(2*teta[i][j]);
-		// }
-		// }
-
-		// double newTeta[][]= filterGaussian(gaussian, omegaX, omegaY);
-		//
-		// for (int i = 8; i < sobelX.length - 8; i++) {
-		// for (int j = 8; j < sobelX[0].length - 8; j++) {
-		// System.out.print(newTeta[i][j]+" ");
-		// }
-		// System.out.print("\n");
-		// }
 	}
 
 	public double[][] getDirection(Pixel[][] sobelX, Pixel[][] sobelY) {
@@ -141,9 +132,15 @@ public class GaborFilter extends JPanel {
 			for (int j = 8; j < sobelX[0].length - 8; j++) {
 				for (int row = i - 8; row < i + 8; row++) {
 					for (int col = j - 8; col < j + 8; col++) {
-						Gxy = Gxy + (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
-						Gxx = Math.pow(sobelX[row][col].mBlue, 2);
-						Gyy = Math.pow(sobelY[row][col].mBlue, 2);
+						Gxy+=(sobelX[row][col].mBlue * sobelY[row][col].mBlue);
+						Gxx+= Math.pow(sobelX[row][col].mBlue, 2);
+						Gyy+= Math.pow(sobelY[row][col].mBlue, 2);
+						/*
+						 * @viet.le
+						 * Theo ly thuyet thi gia tri G tai day la G+=Gxx*Gyy 
+						 *tuy nhien thuc nghiem cho thay G+=Gxx-Gyy
+						 *Cho ket qua tot hon
+						*/
 						G = G + (Gxx - Gyy);
 					}
 				}
