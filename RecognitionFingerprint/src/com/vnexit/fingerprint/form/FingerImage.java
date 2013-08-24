@@ -17,7 +17,7 @@ public class FingerImage extends JPanel {
 	
 	public FingerImage() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource("../datatest/16_1.png"));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/testfingerv2.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

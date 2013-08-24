@@ -25,7 +25,7 @@ public class GaborFilter extends JPanel {
 	public GaborFilter() {
 		try {
 			mFinger = ImageIO.read(getClass().getResource(
-					"../datatest/16_1.png"));
+					"../datatest/testfingerv2.jpg"));
 			imgProcess = new ImageProcess();
 			wr = mFinger.getRaster();
 			pi = imgProcess.getData(mFinger);
@@ -73,9 +73,10 @@ public class GaborFilter extends JPanel {
 	}
 
 	public void Convolution() {
-		float[] sharpen = { 1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f,
-				1.0f };
-		Kernel kernel = new Kernel(3, 3, sharpen);
+//		float[] sharpen = { 1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f,
+//				1.0f };
+		float[] gaussian={1/273f,4/273f,7/273f,4/273f,1/273f,4/273f,16/273f,26/273f,16/273f,4/273f,7/273f,26/273f,41/273f,26/273f,7/273f,4/273f,16/273f,26/273f,16/273f,4/273f,1/273f,4/273f,7/273f,4/273f,1/273f};
+		Kernel kernel = new Kernel(3, 3, gaussian);
 		BufferedImage img = imgProcess.ConvolutionImage(mFinger, kernel);
 		pi = imgProcess.getData(img);
 		imgProcess.setData(wr, pi);
@@ -181,13 +182,13 @@ public class GaborFilter extends JPanel {
 	public void bolocGabor(Pixel[][] pi, double teta[][]) {
 		int[][] gabor = new int[pi.length][pi[0].length];
 		double sum = 0;
-		double f = 0.228;
-		double deltaX = 1.3;
-		double deltaY = 0.4;
+		double f = 0.24; //0.24
+		double deltaX = 1.3; //1.3
+		double deltaY = 1.2; //1.1
 		for (int i = 8; i < pi.length - 8; i++) {
 			for (int j = 8; j < pi[0].length - 8; j++) {
-				for (int x = i - 8; x <= i + 8; x++) {
-					for (int y = j - 8; y <= j + 8; y++) {
+				for (int x = i - 8; x < i + 8; x++) {
+					for (int y = j - 8; y < j + 8; y++) {
 						int x0 = x - i;
 						int y0 = y - j;
 						double X = x0 * Math.cos(teta[i][j]) + y0 * Math.sin(teta[i][j]);
