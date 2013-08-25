@@ -91,7 +91,7 @@ public class ImageProcess {
 	}
 
 	public Pixel[][] IncreaseFinger(Pixel[][] pi) {
-		double Mi0 = 17.0, Vi0 = 140.0;
+		double Mi0 = 150.0, Vi0 = 5400.0;
 		double mi = getMi(pi);
 		double vi = getVi(pi);
 		System.out.print(vi+"-"+mi);
