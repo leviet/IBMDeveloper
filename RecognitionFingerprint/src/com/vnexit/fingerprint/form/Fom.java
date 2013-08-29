@@ -54,7 +54,7 @@ public class Fom extends JFrame {
 		contentPane.add(panel_1);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 360, 506, 120);
+		panel_2.setBounds(10, 360, 550, 120);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
@@ -113,6 +113,15 @@ public class Fom extends JFrame {
 		});
 		btnNewButton_4.setBounds(306, 75, 135, 33);
 		panel_2.add(btnNewButton_4);
+		
+		JButton btnThinning = new JButton("Thinning");
+		btnThinning.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.thinning();
+			}
+		});
+		btnThinning.setBounds(453, 12, 117, 33);
+		panel_2.add(btnThinning);
 		btnGrayChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				grayChangeActionPerformed(evt);

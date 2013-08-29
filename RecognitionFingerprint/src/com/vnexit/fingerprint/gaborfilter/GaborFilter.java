@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.datamodel.SplitThreshold;
+import com.vnexit.fingerprint.datamodel.ThinningProcess;
 import com.vnexit.fingerprint.form.FingerImage;
 
 public class GaborFilter extends JPanel {
@@ -220,5 +221,13 @@ public class GaborFilter extends JPanel {
 				wr.setPixel(i, j, p);
 			}
 		}
+	}
+	public void thinning(){
+		pi=imgProcess.getData(mFinger);
+		ThinningProcess thinning=new ThinningProcess();
+		pi=thinning.thinning(pi);
+//		pi=thinning.donsach(pi);
+		imgProcess.setData(wr, pi);
+		repaint();
 	}
 }
