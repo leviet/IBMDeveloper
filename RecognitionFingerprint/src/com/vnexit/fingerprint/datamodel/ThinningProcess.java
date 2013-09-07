@@ -103,4 +103,84 @@ public class ThinningProcess {
         }
         return pi;
     }
+    
+    public int[][] convertMatrix(Pixel[][] pi){
+    	int[][] res = new int[pi.length][pi[0].length];
+    	for(int i=0; i<pi.length; i++){
+    		for(int j=0; j<pi[0].length; j++){
+    			if(pi[i][j].mBlue==255) res[i][j]=0;
+    			else res[i][j]=1;
+    		}
+    	}
+    	return res;
+    }
+    
+    public boolean checkDelete(int[][] pi, int i, int j){
+    	
+    	return false;
+    }
+    
+    public int getNoneZezo(int[][] pi, int i, int j){
+    	int res=0;
+    		for(int m=i-1; m<=i+1; m++){
+    			for(int n=j-1; n<=j+1; n++){
+    				if(m!=i || n!=j) res += pi[m][n];
+    			}
+    		}
+    	return res;
+    }
+    
+    public int getNumber0transitions1(int[][] pi,int i,int j){
+    	int res=0;
+    		int[] p = new int[10];
+    		p[2] = pi[i-1][j];
+    		p[3] = pi[i-1][j+1];
+    		p[4] = pi[i][j+1];
+    		p[5] = pi[i+1][j+1];
+    		p[6] = pi[i+1][j];
+    		p[7] = pi[i+1][j-1];
+    		p[8] = pi[i][j-1];
+    		p[9] = pi[i-1][j-1];
+    		if(p[9]<p[2]) res++;
+    		for(int m=2;m<9;m++){
+    			if(p[m]<p[m+1]) res++;
+    		}
+    		return res;
+    }
+    
+    public boolean checkSymmetric(int[][] pi,int i,int j){
+    	boolean res=false;
+		int[] p = new int[10];
+		p[2] = pi[i-1][j];
+		p[3] = pi[i-1][j+1];
+		p[4] = pi[i][j+1];
+		p[5] = pi[i+1][j+1];
+		p[6] = pi[i+1][j];
+		p[7] = pi[i+1][j-1];
+		p[8] = pi[i][j-1];
+		p[9] = pi[i-1][j-1];
+		if(p[4]==1 || p[6]==0 || (p[2]==1 && p[8]==1)) res = true;
+		return res;
+    }
+    
+    public boolean checkDeletePosition(int[][] matrix, int i, int j){
+		int N = getNoneZezo(matrix, i, j);
+		int A = getNumber0transitions1(matrix, i, j);
+		if( (N>=2 && N<=6) && (A==1) && checkSymmetric(matrix, i, j) ) return true;
+		return false;
+    }
+    
+    public Pixel[][] thinningNew(Pixel[][] pi){
+    	int[][] matrix = convertMatrix(pi);
+		for(int i=1;i<pi.length-2;i++){
+			for(int j=1;j<pi[0].length-2;j++){
+				if(checkDeletePosition(matrix,i,j)){
+					Pixel p=new Pixel(255,255,255);
+					pi[i][j]=p;
+				}
+					
+			}
+		}
+		return pi;
+	}
 }

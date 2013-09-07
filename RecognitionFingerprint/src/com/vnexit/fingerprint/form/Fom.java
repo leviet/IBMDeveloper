@@ -117,7 +117,7 @@ public class Fom extends JFrame {
 		JButton btnThinning = new JButton("Thinning");
 		btnThinning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				panel_1.CannyEdge();
+				panel_1.thinning();
 			}
 		});
 		btnThinning.setBounds(453, 12, 117, 33);

@@ -227,7 +227,7 @@ public class GaborFilter extends JPanel {
 		pi=imgProcess.getData(mFinger);
 		ThinningProcess thinning=new ThinningProcess();
 		pi=thinning.thinning(pi);
-//		pi=thinning.donsach(pi);
+		pi=thinning.donsach(pi);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
