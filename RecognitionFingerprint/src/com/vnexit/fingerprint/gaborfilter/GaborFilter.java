@@ -11,9 +11,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import com.vnexit.fingerprint.datamodel.CannyEdgeDetector;
 import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.datamodel.SplitThreshold;
+import com.vnexit.fingerprint.datamodel.ThinningProcess;
 import com.vnexit.fingerprint.form.FingerImage;
 
 public class GaborFilter extends JPanel {
@@ -220,5 +222,31 @@ public class GaborFilter extends JPanel {
 				wr.setPixel(i, j, p);
 			}
 		}
+	}
+	public void thinning(){
+		pi=imgProcess.getData(mFinger);
+		ThinningProcess thinning=new ThinningProcess();
+		pi=thinning.thinning(pi);
+		pi=thinning.donsach(pi);
+		imgProcess.setData(wr, pi);
+		repaint();
+	}
+	
+	public void CannyEdge(){
+		//create the detector
+		CannyEdgeDetector detector = new CannyEdgeDetector();
+
+		//adjust its parameters as desired
+		detector.setLowThreshold(0.5f);
+		detector.setHighThreshold(1f);
+
+		//apply it to an image
+		detector.setSourceImage(mFinger);
+		detector.process();
+		mFinger = detector.getEdgesImage();
+//		pi=imgProcess.getData(mFinger);
+//		wr=mFinger.getRaster();
+//		imgProcess.setData(wr, pi);
+		repaint();
 	}
 }
