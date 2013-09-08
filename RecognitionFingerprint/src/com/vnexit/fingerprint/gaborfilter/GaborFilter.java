@@ -69,9 +69,14 @@ public class GaborFilter extends JPanel {
 		pi=imgProcess.getData(mFinger);
 		pi=imgProcess.grayExchange(pi);
 		SplitThreshold sp=new SplitThreshold();
-		pi=sp.newSplitThreshold(pi);
+//		pi=sp.newSplitThreshold(pi);
 //		int thre=sp.getThreshold(pi);
 //		pi=sp.splitThreshold(pi,thre);
+		
+		//Tach nguong bang thuat toan dang dieu
+		
+		int threshold = sp.getIterativeSelection(pi);
+		pi = sp.splitThreshold(pi, threshold);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}

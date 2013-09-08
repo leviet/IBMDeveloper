@@ -110,6 +110,33 @@ public class SplitThreshold {
 		return pi;
 	}
 	
+	public double getAverageSample(int[] his, int min, int max){
+		int tu=0;
+		int mau=0;
+		for(int i=min; i<=max; i++){
+			tu += his[i]*i;
+			mau += his[i];
+		}
+		return (double)tu/mau;
+	}
+	
+	public int getThresholdNext(int[] his, int old){
+		double sampleBottom = getAverageSample(his, 0, old);
+		double sampleTop = getAverageSample(his, old + 1, 255);
+		return (int) ((sampleBottom + sampleTop)/2);
+	}
+	
+	public int getIterativeSelection(Pixel[][] pi){
+		int[] his = getHistogram(pi);
+		int threshold = 100;
+		int nextThreshold = getThresholdNext(his, threshold);
+		while (threshold != nextThreshold){
+			threshold = nextThreshold;
+			nextThreshold = getThresholdNext(his, threshold);
+		}
+		return threshold;
+	}
+	
 	private class Postition {
 		private int a;
 		private int b;
