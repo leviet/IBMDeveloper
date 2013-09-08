@@ -1,6 +1,5 @@
 package com.vnexit.fingerprint.gaborfilter;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -16,7 +15,6 @@ import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.datamodel.SplitThreshold;
 import com.vnexit.fingerprint.datamodel.ThinningProcess;
-import com.vnexit.fingerprint.form.FingerImage;
 
 public class GaborFilter extends JPanel {
 	BufferedImage mFinger;
@@ -26,8 +24,7 @@ public class GaborFilter extends JPanel {
 
 	public GaborFilter() {
 		try {
-			mFinger = ImageIO.read(getClass().getResource(
-					"../datatest/testfingerv2.jpg"));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/testfingerv2.jpg"));
 			imgProcess = new ImageProcess();
 			wr = mFinger.getRaster();
 			pi = imgProcess.getData(mFinger);
@@ -40,8 +37,7 @@ public class GaborFilter extends JPanel {
 
 	public void rePaintLink(String link) {
 		try {
-			mFinger = ImageIO.read(getClass()
-					.getResource("../datatest/" + link));
+			mFinger = ImageIO.read(getClass().getResource("../datatest/" + link));
 			imgProcess = new ImageProcess();
 			wr = mFinger.getRaster();
 			pi = imgProcess.getData(mFinger);
@@ -51,6 +47,7 @@ public class GaborFilter extends JPanel {
 		}
 	}
 
+	@Override
 	public void paint(Graphics g) {
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -63,18 +60,18 @@ public class GaborFilter extends JPanel {
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
-	
-	//Tach nguong tu dong
-	public void threshold(){
-		pi=imgProcess.getData(mFinger);
-		pi=imgProcess.grayExchange(pi);
-		SplitThreshold sp=new SplitThreshold();
-//		pi=sp.newSplitThreshold(pi);
-//		int thre=sp.getThreshold(pi);
-//		pi=sp.splitThreshold(pi,thre);
-		
-		//Tach nguong bang thuat toan dang dieu
-		
+
+	// Tach nguong tu dong
+	public void threshold() {
+		pi = imgProcess.getData(mFinger);
+		pi = imgProcess.grayExchange(pi);
+		SplitThreshold sp = new SplitThreshold();
+		// pi=sp.newSplitThreshold(pi);
+		// int thre=sp.getThreshold(pi);
+		// pi=sp.splitThreshold(pi,thre);
+
+		// Tach nguong bang thuat toan dang dieu
+
 		int threshold = sp.getIterativeSelection(pi);
 		pi = sp.splitThreshold(pi, threshold);
 		imgProcess.setData(wr, pi);
@@ -82,16 +79,17 @@ public class GaborFilter extends JPanel {
 	}
 
 	public void Convolution() {
-//		float[] sharpen = { 1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f,
-//				1.0f };
-		float[] gaussian={1/273f,4/273f,7/273f,4/273f,1/273f,4/273f,16/273f,26/273f,16/273f,4/273f,7/273f,26/273f,41/273f,26/273f,7/273f,4/273f,16/273f,26/273f,16/273f,4/273f,1/273f,4/273f,7/273f,4/273f,1/273f};
+		// float[] sharpen = { 1.0f, -2.0f, 1.0f, -2.0f, 4.0f, -2.0f, 1.0f, -2.0f,
+		// 1.0f };
+		float[] gaussian = { 1 / 273f, 4 / 273f, 7 / 273f, 4 / 273f, 1 / 273f, 4 / 273f, 16 / 273f, 26 / 273f, 16 / 273f, 4 / 273f, 7 / 273f, 26 / 273f, 41 / 273f, 26 / 273f, 7 / 273f, 4 / 273f, 16 / 273f, 26 / 273f, 16 / 273f, 4 / 273f, 1 / 273f, 4 / 273f, 7 / 273f, 4 / 273f, 1 / 273f };
 		Kernel kernel = new Kernel(3, 3, gaussian);
 		BufferedImage img = imgProcess.ConvolutionImage(mFinger, kernel);
 		pi = imgProcess.getData(img);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
-	//Tang cuong hinh anh
+
+	// Tang cuong hinh anh
 	public void IncreaseFinger() {
 		pi = imgProcess.grayExchange(pi);
 		imgProcess.setData(wr, pi);
@@ -101,26 +99,26 @@ public class GaborFilter extends JPanel {
 	}
 
 	public void Gabor() {
-		//Ma tran Sobel theo truc x
+		// Ma tran Sobel theo truc x
 		float[] hx = { 1.0f, 0.0f, -1.0f, 2.0f, 0f, -2.0f, 1.0f, 0.0f, -1.0f };
-		//Ma tran Sobel theo truc y
+		// Ma tran Sobel theo truc y
 		float[] hy = { 1.0f, 2.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, -2.0f, -1.0f };
 		// double[][]
 		// gaussian={{1/273,4/273,7/273,4/273f,1/273},{4/273,16/273,26/273,16/273,4/273},{7/273,26/273,41/273,26/273,7/273},{4/273,16/273,26/273,16/273,4/273},{1/273,4/273,7/273,4/273,1/273}};
-		
-		//Khoi tao 2 ma tran Kernel voi dau vao la 2 ma tran Sobel da tao o tren
+
+		// Khoi tao 2 ma tran Kernel voi dau vao la 2 ma tran Sobel da tao o tren
 		Kernel ke1 = new Kernel(3, 3, hx);
 		Kernel ke2 = new Kernel(3, 3, hy);
-		
-		//Nhap chap anh dau vao lan luot voi 2 ma tran Sobel
+
+		// Nhap chap anh dau vao lan luot voi 2 ma tran Sobel
 		BufferedImage imgx = imgProcess.ConvolutionImage(mFinger, ke1);
 		BufferedImage imgy = imgProcess.ConvolutionImage(mFinger, ke2);
 
-		//Doc du lieu tu anh sau khi da nhan chap voi ma tran Sobel
+		// Doc du lieu tu anh sau khi da nhan chap voi ma tran Sobel
 		Pixel[][] sobelX = imgProcess.getData(imgx);
 		Pixel[][] sobelY = imgProcess.getData(imgy);
 
-		//Tinh huong gradien cua diem anh
+		// Tinh huong gradien cua diem anh
 		double teta[][] = getDirection(sobelX, sobelY);
 
 		bolocGabor(pi, teta);
@@ -139,15 +137,12 @@ public class GaborFilter extends JPanel {
 			for (int j = 8; j < sobelX[0].length - 8; j++) {
 				for (int row = i - 8; row < i + 8; row++) {
 					for (int col = j - 8; col < j + 8; col++) {
-						Gxy+=(sobelX[row][col].mBlue * sobelY[row][col].mBlue);
-						Gxx+= Math.pow(sobelX[row][col].mBlue, 2);
-						Gyy+= Math.pow(sobelY[row][col].mBlue, 2);
+						Gxy += (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
+						Gxx += Math.pow(sobelX[row][col].mBlue, 2);
+						Gyy += Math.pow(sobelY[row][col].mBlue, 2);
 						/*
-						 * @viet.le
-						 * Theo ly thuyet thi gia tri G tai day la G+=Gxx*Gyy 
-						 *tuy nhien thuc nghiem cho thay G+=Gxx-Gyy
-						 *Cho ket qua tot hon
-						*/
+						 * @viet.le Theo ly thuyet thi gia tri G tai day la G+=Gxx*Gyytuy nhien thuc nghiem cho thay G+=Gxx-GyyCho ket qua tot hon
+						 */
 						G = G + (Gxx - Gyy);
 					}
 				}
@@ -163,7 +158,7 @@ public class GaborFilter extends JPanel {
 		return phi;
 	}
 
-	public double[][] filterGaussian(double[][] GauMatrix, double[][] omegaX,double[][] omegaY) {
+	public double[][] filterGaussian(double[][] GauMatrix, double[][] omegaX, double[][] omegaY) {
 		double[][] phi = new double[omegaX.length][omegaX[0].length];
 		for (int i = 8; i < omegaX.length - 8; i++) {
 			for (int j = 8; j < omegaX[0].length - 8; j++) {
@@ -186,9 +181,9 @@ public class GaborFilter extends JPanel {
 	public void bolocGabor(Pixel[][] pi, double teta[][]) {
 		int[][] gabor = new int[pi.length][pi[0].length];
 		double sum = 0;
-		double f = 0.24; //0.24
-		double deltaX = 1.3; //1.3
-		double deltaY = 1.2; //1.1
+		double f = 0.24; // 0.24
+		double deltaX = 1.3; // 1.3
+		double deltaY = 1.2; // 1.1
 		for (int i = 8; i < pi.length - 8; i++) {
 			for (int j = 8; j < pi[0].length - 8; j++) {
 				for (int x = i - 8; x < i + 8; x++) {
@@ -197,8 +192,8 @@ public class GaborFilter extends JPanel {
 						int y0 = y - j;
 						double X = x0 * Math.cos(teta[i][j]) + y0 * Math.sin(teta[i][j]);
 						double Y = -x0 * Math.sin(teta[i][j]) + y0 * Math.cos(teta[i][j]);
-						double gb = Math.exp(-0.5* ((Math.pow(X, 2) / (Math.pow(deltaX,2))) + (Math.pow(Y, 2) / (Math.pow(deltaY, 2)))))* Math.cos(2 * Math.PI * f * X);
-						sum = sum + gb * (double) pi[x][y].mBlue;
+						double gb = Math.exp(-0.5 * ((Math.pow(X, 2) / (Math.pow(deltaX, 2))) + (Math.pow(Y, 2) / (Math.pow(deltaY, 2))))) * Math.cos(2 * Math.PI * f * X);
+						sum = sum + gb * pi[x][y].mBlue;
 					}
 				}
 				gabor[i][j] = (int) sum;
@@ -214,7 +209,7 @@ public class GaborFilter extends JPanel {
 		int[] p = new int[3];
 		for (int i = 0; i < gabor.length; i++) {
 			for (int j = 0; j < gabor[0].length; j++) {
-				int a = (int) gabor[i][j];
+				int a = gabor[i][j];
 				if (a > 255) {
 					a = 255;
 				}
@@ -228,30 +223,31 @@ public class GaborFilter extends JPanel {
 			}
 		}
 	}
-	public void thinning(){
-		pi=imgProcess.getData(mFinger);
-		ThinningProcess thinning=new ThinningProcess();
-		pi=thinning.thinning(pi);
-		pi=thinning.donsach(pi);
+
+	public void thinning() {
+		pi = imgProcess.getData(mFinger);
+		ThinningProcess thinning = new ThinningProcess();
+		pi = thinning.thinning(pi);
+		pi = thinning.donsach(pi);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
-	
-	public void CannyEdge(){
-		//create the detector
+
+	public void CannyEdge() {
+		// create the detector
 		CannyEdgeDetector detector = new CannyEdgeDetector();
 
-		//adjust its parameters as desired
+		// adjust its parameters as desired
 		detector.setLowThreshold(0.5f);
 		detector.setHighThreshold(1f);
 
-		//apply it to an image
+		// apply it to an image
 		detector.setSourceImage(mFinger);
 		detector.process();
 		mFinger = detector.getEdgesImage();
-//		pi=imgProcess.getData(mFinger);
-//		wr=mFinger.getRaster();
-//		imgProcess.setData(wr, pi);
+		// pi=imgProcess.getData(mFinger);
+		// wr=mFinger.getRaster();
+		// imgProcess.setData(wr, pi);
 		repaint();
 	}
 }

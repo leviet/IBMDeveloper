@@ -12,7 +12,6 @@ public class ImageProcess {
 	private Pixel[][] mPi;
 
 	public ImageProcess() {
-
 	}
 
 	public Pixel[][] getData(BufferedImage mBimg) {
@@ -47,8 +46,7 @@ public class ImageProcess {
 		int s = 0;
 		for (int i = 0; i < pi.length; i++) {
 			for (int j = 0; j < pi[0].length; j++) {
-				s = Math.max(pi[i][j].mRed,
-						Math.max(pi[i][j].mGreen, pi[i][j].mBlue));
+				s = Math.max(pi[i][j].mRed, Math.max(pi[i][j].mGreen, pi[i][j].mBlue));
 				Pixel p = new Pixel(s, s, s);
 				pi[i][j] = p;
 			}
@@ -94,21 +92,21 @@ public class ImageProcess {
 		double Mi0 = 150.0, Vi0 = 5400.0;
 		double mi = getMi(pi);
 		double vi = getVi(pi);
-		System.out.print(vi+"-"+mi);
+		System.out.print(vi + "-" + mi);
 		for (int i = 0; i < pi.length; i++) {
 			for (int j = 0; j < pi[0].length; j++) {
-				double s=0;
+				double s = 0;
 				if (pi[i][j].mBlue >= mi) {
-                    s = Mi0 + Math.sqrt(Vi0 * Math.pow(pi[i][j].mBlue - mi, 2) / vi);
-                } else {
-                    s = Mi0 - Math.sqrt(Vi0 * Math.pow(pi[i][j].mBlue - mi, 2) / vi);
-                }
-				int x=(int)s;
-				Pixel px=new Pixel(x,x,x);
-				pi[i][j]=px;
+					s = Mi0 + Math.sqrt(Vi0 * Math.pow(pi[i][j].mBlue - mi, 2) / vi);
+				} else {
+					s = Mi0 - Math.sqrt(Vi0 * Math.pow(pi[i][j].mBlue - mi, 2) / vi);
+				}
+				int x = (int) s;
+				Pixel px = new Pixel(x, x, x);
+				pi[i][j] = px;
 			}
 		}
 		return pi;
 	}
-	
+
 }
