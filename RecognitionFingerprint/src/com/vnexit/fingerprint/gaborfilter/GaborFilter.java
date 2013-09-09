@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.vnexit.fingerprint.datamodel.CannyEdgeDetector;
+import com.vnexit.fingerprint.datamodel.ExtractFeatured;
 import com.vnexit.fingerprint.datamodel.ImageProcess;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.datamodel.SplitThreshold;
@@ -21,6 +22,7 @@ public class GaborFilter extends JPanel {
 	Pixel[][] pi;
 	ImageProcess imgProcess;
 	WritableRaster wr;
+	Graphics2D graphics;
 
 	public GaborFilter() {
 		try {
@@ -52,7 +54,15 @@ public class GaborFilter extends JPanel {
 
 		Graphics2D g2d = (Graphics2D) g;
 
+		this.graphics = g2d;
+
 		g2d.drawImage(mFinger, null, 0, 0);
+
+		// for (int i = 8; i < mFinger.getHeight() - 8; i++)
+		// for (int j = 8; j < mFinger.getWidth() - 8; j++) {
+		// if (featured[i][j] != 0)
+		// g2d.drawOval(i, j, 10, 10);
+		// }
 	}
 
 	public void tests() {
@@ -248,6 +258,24 @@ public class GaborFilter extends JPanel {
 		// pi=imgProcess.getData(mFinger);
 		// wr=mFinger.getRaster();
 		// imgProcess.setData(wr, pi);
+		repaint();
+	}
+
+	public void writeFeatured(int[][] featured) {
+		for (int i = 8; i <= featured.length - 8; i++) {
+			System.out.print("\n");
+			for (int j = 8; j < featured[0].length - 8; j++) {
+				System.out.print(featured[i][j] + " ");
+			}
+		}
+	}
+
+	public void extractFeatured() {
+		pi = imgProcess.getData(mFinger);
+		ExtractFeatured ex = new ExtractFeatured();
+		int[][] featured = ex.getFeatured(pi);
+		imgProcess.setData(wr, pi);
+		writeFeatured(featured);
 		repaint();
 	}
 }

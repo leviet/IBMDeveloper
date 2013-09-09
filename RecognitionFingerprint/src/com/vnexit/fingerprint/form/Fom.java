@@ -123,6 +123,7 @@ public class Fom extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.thinning();
+				panel_1.extractFeatured();
 			}
 		});
 		btnThinning.setBounds(453, 12, 117, 33);

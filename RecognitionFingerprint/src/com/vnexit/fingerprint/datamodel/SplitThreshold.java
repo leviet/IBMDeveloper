@@ -8,7 +8,6 @@ public class SplitThreshold {
 
 	public int[] getHistogram(Pixel[][] pi) {
 		int[] his = new int[256];
-		System.out.print("Histogram: ");
 		for (int i = 0; i < 256; i++) {
 			int tong = 0;
 			for (int y = 0; y < pi.length; y++) {
@@ -18,7 +17,6 @@ public class SplitThreshold {
 				}
 			}
 			his[i] = tong;
-			System.out.print(tong + " ");
 		}
 		return his;
 	}
@@ -89,7 +87,6 @@ public class SplitThreshold {
 	public Pixel[][] newSplitThreshold(Pixel[][] pi) {
 		int i = 0, j = 0, m = 0, n = 0;
 		for (i = 8; i < pi.length - 8; i++) {
-			System.out.print("\n");
 			for (j = 8; j < pi[0].length - 8; j++) {
 				int sum = 0;
 				for (m = i - 8; m < i + 8; m++) {
@@ -104,7 +101,6 @@ public class SplitThreshold {
 					Pixel tmp = new Pixel(0, 0, 0);
 					pi[i][j] = tmp;
 				}
-				System.out.print(sum / 64 + " ");
 			}
 		}
 		return pi;

@@ -6,9 +6,7 @@ public class ThinningProcess {
 
 	public Pixel[][] thinning(Pixel[][] pi) {
 		for (int i = 1; i < pi.length - 1; i++) {
-			System.out.print("\n");
 			for (int j = 1; j < pi[0].length - 1; j++) {
-				System.out.print(pi[i][j].mBlue + " ");
 				if (bien(pi, i, j) && xoa(pi, i, j)) {
 					Pixel p = new Pixel(255, 255, 255);
 					pi[i][j] = p;
@@ -184,8 +182,8 @@ public class ThinningProcess {
 
 	public Pixel[][] thinningNew(Pixel[][] pi) {
 		int[][] matrix = convertMatrix(pi);
-		for (int i = 1; i < pi.length - 2; i++) {
-			for (int j = 1; j < pi[0].length - 2; j++) {
+		for (int i = 1; i < pi.length - 1; i++) {
+			for (int j = 1; j < pi[0].length - 1; j++) {
 				if (checkDeletePosition(matrix, i, j)) {
 					Pixel p = new Pixel(255, 255, 255);
 					pi[i][j] = p;
