@@ -2,6 +2,7 @@ package com.vnexit.fingerprint.gaborfilter;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;

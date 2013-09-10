@@ -40,20 +40,20 @@ public class Fom extends JFrame {
 	 */
 	public Fom() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 562, 551);
+		setBounds(100, 100, 769, 638);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		panel.setBounds(10, 11, 248, 338);
+		panel.setBounds(10, 11, 329, 356);
 		contentPane.add(panel);
 
-		panel_1.setBounds(268, 11, 248, 338);
+		panel_1.setBounds(349, 11, 328, 356);
 		contentPane.add(panel_1);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 360, 550, 120);
+		panel_2.setBounds(10, 469, 721, 120);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
@@ -123,11 +123,28 @@ public class Fom extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				panel_1.thinning();
-				panel_1.extractFeatured();
 			}
 		});
 		btnThinning.setBounds(453, 12, 117, 33);
 		panel_2.add(btnThinning);
+		
+		JButton btnNewButton_5 = new JButton("Extract Featrured");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panel_1.extractFeatured();
+			}
+		});
+		btnNewButton_5.setBounds(451, 75, 119, 33);
+		panel_2.add(btnNewButton_5);
+		
+		JButton btnNewButton_6 = new JButton("Canny");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_1.CannyEdge();
+			}
+		});
+		btnNewButton_6.setBounds(580, 12, 131, 33);
+		panel_2.add(btnNewButton_6);
 		btnGrayChange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
