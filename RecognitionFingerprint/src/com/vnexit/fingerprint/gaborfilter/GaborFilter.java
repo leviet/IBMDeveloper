@@ -2,7 +2,6 @@ package com.vnexit.fingerprint.gaborfilter;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;
@@ -74,8 +73,8 @@ public class GaborFilter extends JPanel {
 
 	// Tach nguong tu dong
 	public void threshold() {
-		pi = imgProcess.getData(mFinger);
-		pi = imgProcess.grayExchange(pi);
+		// pi = imgProcess.getData(mFinger);
+		// pi = imgProcess.grayExchange(pi);
 		SplitThreshold sp = new SplitThreshold();
 		// pi=sp.newSplitThreshold(pi);
 		// int thre=sp.getThreshold(pi);
@@ -95,15 +94,15 @@ public class GaborFilter extends JPanel {
 		float[] gaussian = { 1 / 273f, 4 / 273f, 7 / 273f, 4 / 273f, 1 / 273f, 4 / 273f, 16 / 273f, 26 / 273f, 16 / 273f, 4 / 273f, 7 / 273f, 26 / 273f, 41 / 273f, 26 / 273f, 7 / 273f, 4 / 273f, 16 / 273f, 26 / 273f, 16 / 273f, 4 / 273f, 1 / 273f, 4 / 273f, 7 / 273f, 4 / 273f, 1 / 273f };
 		Kernel kernel = new Kernel(3, 3, gaussian);
 		BufferedImage img = imgProcess.ConvolutionImage(mFinger, kernel);
-		pi = imgProcess.getData(img);
+		// pi = imgProcess.getData(img);
 		imgProcess.setData(wr, pi);
 		repaint();
 	}
 
 	// Tang cuong hinh anh
 	public void IncreaseFinger() {
-		pi = imgProcess.grayExchange(pi);
-		imgProcess.setData(wr, pi);
+		// pi = imgProcess.grayExchange(pi);
+		// imgProcess.setData(wr, pi);
 		pi = imgProcess.IncreaseFinger(pi);
 		imgProcess.setData(wr, pi);
 		repaint();
@@ -148,16 +147,13 @@ public class GaborFilter extends JPanel {
 			for (int j = 8; j < sobelX[0].length - 8; j++) {
 				for (int row = i - 8; row < i + 8; row++) {
 					for (int col = j - 8; col < j + 8; col++) {
-						Gxy += (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
+						Gxy += 2 * (sobelX[row][col].mBlue * sobelY[row][col].mBlue);
 						Gxx += Math.pow(sobelX[row][col].mBlue, 2);
 						Gyy += Math.pow(sobelY[row][col].mBlue, 2);
-						/*
-						 * @viet.le Theo ly thuyet thi gia tri G tai day la G+=Gxx*Gyytuy nhien thuc nghiem cho thay G+=Gxx-GyyCho ket qua tot hon
-						 */
-						G = G + (Gxx - Gyy);
+						G += (Gxx - Gyy);
 					}
 				}
-				count = (Math.atan2(2 * Gxy, G)) / 2;
+				count = (Math.atan2(Gxy, G)) / 2;
 				phi[i][j] = count;
 				count = 0;
 				Gxy = 0;
@@ -211,13 +207,12 @@ public class GaborFilter extends JPanel {
 				sum = 0;
 			}
 		}
-		GaborFilter(wr, gabor);
-		pi = imgProcess.getData(mFinger);
+		GaborFilter(pi, gabor);
+		// pi = imgProcess.getData(mFinger);
 		imgProcess.setData(wr, pi);
 	}
 
-	private void GaborFilter(WritableRaster wr, int[][] gabor) {
-		int[] p = new int[3];
+	private void GaborFilter(Pixel[][] pix, int[][] gabor) {
 		for (int i = 0; i < gabor.length; i++) {
 			for (int j = 0; j < gabor[0].length; j++) {
 				int a = gabor[i][j];
@@ -227,16 +222,13 @@ public class GaborFilter extends JPanel {
 				if (a < 0) {
 					a = 0;
 				}
-				p[0] = a;
-				p[1] = a;
-				p[2] = a;
-				wr.setPixel(i, j, p);
+				pix[i][j] = new Pixel(a, a, a);
 			}
 		}
 	}
 
 	public void thinning() {
-		pi = imgProcess.getData(mFinger);
+		// pi = imgProcess.getData(mFinger);
 		ThinningProcess thinning = new ThinningProcess();
 		pi = thinning.thinning(pi);
 		pi = thinning.donsach(pi);
@@ -272,7 +264,7 @@ public class GaborFilter extends JPanel {
 	}
 
 	public void extractFeatured() {
-		pi = imgProcess.getData(mFinger);
+		// pi = imgProcess.getData(mFinger);
 		ExtractFeatured ex = new ExtractFeatured();
 		int[][] featured = ex.getFeatured(pi);
 		imgProcess.setData(wr, pi);
