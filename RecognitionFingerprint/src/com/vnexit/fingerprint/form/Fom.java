@@ -3,6 +3,7 @@ package com.vnexit.fingerprint.form;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -122,23 +123,35 @@ public class Fom extends JFrame {
 		btnThinning.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				panel_1.thinning();
+				try {
+					panel_1.thinning();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnThinning.setBounds(453, 12, 117, 33);
 		panel_2.add(btnThinning);
-		
+
 		JButton btnNewButton_5 = new JButton("Extract Featrured");
 		btnNewButton_5.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				panel_1.extractFeatured();
+				try {
+					panel_1.extractFeatured();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_5.setBounds(451, 75, 119, 33);
 		panel_2.add(btnNewButton_5);
-		
+
 		JButton btnNewButton_6 = new JButton("Canny");
 		btnNewButton_6.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel_1.CannyEdge();
 			}

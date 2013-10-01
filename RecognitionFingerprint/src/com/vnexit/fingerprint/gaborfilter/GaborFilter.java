@@ -5,7 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -23,13 +27,18 @@ public class GaborFilter extends JPanel {
 	ImageProcess imgProcess;
 	WritableRaster wr;
 	Graphics2D graphics;
+	double[][] gra;
+	String name;
+	int[][] ft = new int[100][100];
 
 	public GaborFilter() {
 		try {
+			name = "testfingerv2.jpg";
 			mFinger = ImageIO.read(getClass().getResource("../datatest/testfingerv2.jpg"));
 			imgProcess = new ImageProcess();
 			wr = mFinger.getRaster();
 			pi = imgProcess.getData(mFinger);
+			setFt();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,12 +46,23 @@ public class GaborFilter extends JPanel {
 		g.drawImage(mFinger, 0, 0, null);
 	}
 
+	public void setFt() {
+		ft = new int[pi.length][pi[0].length];
+		for (int i = 0; i < pi.length; i++) {
+			for (int j = 0; j < pi[0].length; j++) {
+				ft[i][j] = 0;
+			}
+		}
+	}
+
 	public void rePaintLink(String link) {
 		try {
+			name = link;
 			mFinger = ImageIO.read(getClass().getResource("../datatest/" + link));
 			imgProcess = new ImageProcess();
 			wr = mFinger.getRaster();
 			pi = imgProcess.getData(mFinger);
+			setFt();
 			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -58,11 +78,11 @@ public class GaborFilter extends JPanel {
 
 		g2d.drawImage(mFinger, null, 0, 0);
 
-		// for (int i = 8; i < mFinger.getHeight() - 8; i++)
-		// for (int j = 8; j < mFinger.getWidth() - 8; j++) {
-		// if (featured[i][j] != 0)
-		// g2d.drawOval(i, j, 10, 10);
-		// }
+		for (int i = 8; i < ft.length - 8; i++)
+			for (int j = 8; j < ft[0].length - 8; j++) {
+				if (ft[i][j] == 2)
+					g2d.drawOval(i, j, 5, 5);
+			}
 	}
 
 	public void tests() {
@@ -130,6 +150,7 @@ public class GaborFilter extends JPanel {
 
 		// Tinh huong gradien cua diem anh
 		double teta[][] = getDirection(sobelX, sobelY);
+		gra = teta;
 
 		bolocGabor(pi, teta);
 		repaint();
@@ -227,7 +248,7 @@ public class GaborFilter extends JPanel {
 		}
 	}
 
-	public void thinning() {
+	public void thinning() throws FileNotFoundException {
 		// pi = imgProcess.getData(mFinger);
 		ThinningProcess thinning = new ThinningProcess();
 		pi = thinning.thinning(pi);
@@ -263,12 +284,28 @@ public class GaborFilter extends JPanel {
 		}
 	}
 
-	public void extractFeatured() {
+	public void exportFile() throws FileNotFoundException {
+		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".arff"));
+		PrintStream out = new PrintStream(outFile);
+		out.print(this.name + " ");
+		int k = 0;
+		for (int i = 0; i < pi.length; i++) {
+			for (int j = 0; j < pi[0].length; j++) {
+				out.print(k + ":" + ft[i][j] + " ");
+				k++;
+			}
+		}
+		out.close();
+	}
+
+	public void extractFeatured() throws FileNotFoundException {
 		// pi = imgProcess.getData(mFinger);
 		ExtractFeatured ex = new ExtractFeatured();
 		int[][] featured = ex.getFeatured(pi);
+		ft = featured;
 		imgProcess.setData(wr, pi);
 		writeFeatured(featured);
 		repaint();
+		exportFile();
 	}
 }
