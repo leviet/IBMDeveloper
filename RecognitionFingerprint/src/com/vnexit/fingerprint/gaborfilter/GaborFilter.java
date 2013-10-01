@@ -298,6 +298,32 @@ public class GaborFilter extends JPanel {
 		out.close();
 	}
 
+	public void exportFile2() throws FileNotFoundException {
+		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".arff"));
+		PrintStream out = new PrintStream(outFile);
+		out.print("@RELATION FingerPrint\n");
+		out.print("@attribute featureMatrix relational\n");
+		int k = 0;
+		for (int i = 0; i < pi.length; i++) {
+			for (int j = 0; j < pi[0].length; j++) {
+				out.print("@attribute " + k + " integer\n");
+				k++;
+			}
+		}
+		out.print("@end featureMatrix\n");
+		out.print("@attribute class {A, NOT-A}\n");
+		out.print("@data\n");
+		k = 0;
+		for (int i = 0; i < pi.length; i++) {
+			for (int j = 0; j < pi[0].length; j++) {
+				out.print(ft[i][j] + ",");
+				k++;
+			}
+		}
+		out.print(" A\n");
+		out.close();
+	}
+
 	public void extractFeatured() throws FileNotFoundException {
 		// pi = imgProcess.getData(mFinger);
 		ExtractFeatured ex = new ExtractFeatured();
@@ -306,6 +332,6 @@ public class GaborFilter extends JPanel {
 		imgProcess.setData(wr, pi);
 		writeFeatured(featured);
 		repaint();
-		exportFile();
+		exportFile2();
 	}
 }

@@ -21,7 +21,7 @@ public class SVMtester {
 	public static void main(String[] args) throws Exception {
 
 		String fileLocation = "";
-		String fileName = "data.arff";
+		String fileName = "000_L0_3.bmp.arff";
 
 		svm.svm_set_print_string_function(svm_print_null);
 
