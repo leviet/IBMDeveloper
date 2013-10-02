@@ -311,12 +311,28 @@ public class GaborFilter extends JPanel {
 			}
 		}
 		out.print("@end featureMatrix\n");
+		out.print("@attribute gradienMatrix relational\n");
+		k = 0;
+		for (int i = 0; i < gra.length; i++) {
+			for (int j = 0; j < gra[0].length; j++) {
+				out.print("@attribute " + k + " integer\n");
+				k++;
+			}
+		}
+		out.print("@end featureMatrix\n");
 		out.print("@attribute class {A, NOT-A}\n");
 		out.print("@data\n");
 		k = 0;
 		for (int i = 0; i < pi.length; i++) {
 			for (int j = 0; j < pi[0].length; j++) {
 				out.print(ft[i][j] + ",");
+				k++;
+			}
+		}
+		k = 0;
+		for (int i = 0; i < gra.length; i++) {
+			for (int j = 0; j < gra[0].length; j++) {
+				out.print(gra[i][j] + ",");
 				k++;
 			}
 		}
