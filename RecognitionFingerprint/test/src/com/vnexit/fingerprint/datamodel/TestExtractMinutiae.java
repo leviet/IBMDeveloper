@@ -93,6 +93,7 @@ public class TestExtractMinutiae {
 		for (int i = 0; i < mDis.length; i++) {
 			System.out.print(mTy[i] + "\t" + mTa[i] + "\t" + mDis[i]+"\n");
 		}
+		System.out.print("\\n");
 	}
 
 }
