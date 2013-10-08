@@ -43,7 +43,7 @@ public class ExtractMinutiae {
 	public void sortArray(double[] array, int[] tick) {
 		for (int i = 0; i < array.length; i++) {
 			for (int j = i + 1; j < array.length; j++) {
-				if (array[i] > array[j]) {
+				if (array[i] < array[j]) {
 					double tmp = array[i];
 					array[i] = array[j];
 					array[j] = tmp;
@@ -73,9 +73,11 @@ public class ExtractMinutiae {
 							}
 						}
 					}
+					if(min<9999)
 					res[k] = min;
+					else res[k] = 0;
 				} else {
-					res[k] = 9999;
+					res[k] = 0;
 				}
 				k++;
 			}

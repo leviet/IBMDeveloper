@@ -368,12 +368,14 @@ public class GaborFilter extends JPanel {
 		ExtractMinutiae exTrac = new ExtractMinutiae(gra, ft);
 		Minutiae minu = exTrac.extractMinutiae();
 		
-		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".train"));
+		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".arff"));
+		FileOutputStream outFile2 = new FileOutputStream(new File(this.name + ".train"));
 		PrintStream out = new PrintStream(outFile);
+		PrintStream out2 = new PrintStream(outFile2);
 		
-//		minu.writeHeader(out);
-//		minu.writeData(out, "A");
-		minu.writeData2(out, "A");
+		minu.writeHeader(out);
+		minu.writeData(out, "+1");
+		minu.writeData2(out2, "+1");
 		
 		out.close();
 	}

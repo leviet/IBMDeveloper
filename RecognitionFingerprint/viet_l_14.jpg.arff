@@ -1,0 +1,65 @@
+@RELATION FingerPrint
+@attribute typePoint0 numeric
+@attribute gradienPoint0 numeric
+@attribute distancePoint0 numeric
+@attribute typePoint1 numeric
+@attribute gradienPoint1 numeric
+@attribute distancePoint1 numeric
+@attribute typePoint2 numeric
+@attribute gradienPoint2 numeric
+@attribute distancePoint2 numeric
+@attribute typePoint3 numeric
+@attribute gradienPoint3 numeric
+@attribute distancePoint3 numeric
+@attribute typePoint4 numeric
+@attribute gradienPoint4 numeric
+@attribute distancePoint4 numeric
+@attribute typePoint5 numeric
+@attribute gradienPoint5 numeric
+@attribute distancePoint5 numeric
+@attribute typePoint6 numeric
+@attribute gradienPoint6 numeric
+@attribute distancePoint6 numeric
+@attribute typePoint7 numeric
+@attribute gradienPoint7 numeric
+@attribute distancePoint7 numeric
+@attribute typePoint8 numeric
+@attribute gradienPoint8 numeric
+@attribute distancePoint8 numeric
+@attribute typePoint9 numeric
+@attribute gradienPoint9 numeric
+@attribute distancePoint9 numeric
+@attribute typePoint10 numeric
+@attribute gradienPoint10 numeric
+@attribute distancePoint10 numeric
+@attribute typePoint11 numeric
+@attribute gradienPoint11 numeric
+@attribute distancePoint11 numeric
+@attribute typePoint12 numeric
+@attribute gradienPoint12 numeric
+@attribute distancePoint12 numeric
+@attribute typePoint13 numeric
+@attribute gradienPoint13 numeric
+@attribute distancePoint13 numeric
+@attribute typePoint14 numeric
+@attribute gradienPoint14 numeric
+@attribute distancePoint14 numeric
+@attribute typePoint15 numeric
+@attribute gradienPoint15 numeric
+@attribute distancePoint15 numeric
+@attribute typePoint16 numeric
+@attribute gradienPoint16 numeric
+@attribute distancePoint16 numeric
+@attribute typePoint17 numeric
+@attribute gradienPoint17 numeric
+@attribute distancePoint17 numeric
+@attribute typePoint18 numeric
+@attribute gradienPoint18 numeric
+@attribute distancePoint18 numeric
+@attribute typePoint19 numeric
+@attribute gradienPoint19 numeric
+@attribute distancePoint19 numeric
+@attribute class {A, NOT-A}
+
+@data
+2,0.0,33.97057550292606,2,1.5697371385721717,26.1725046566048,1,1.570586087250385,24.041630560342615,1,1.5704378967254315,23.021728866442675,1,1.475195268268148,22.80350850198276,1,1.5698257770472916,22.20360331117452,2,1.4849850487077272,21.633307652783937,1,1.5686364075176549,21.02379604162864,1,1.5706757017069193,20.615528128088304,1,0.0143007975295435,19.924858845171276,1,1.4307653607395558,19.72308292331602,1,1.5702114306873811,19.6468827043885,1,1.5706332680983535,19.313207915827967,1,1.569967055677734,19.235384061671343,1,1.5379378606970302,18.601075237738275,1,1.5001451254573466,18.439088914585774,1,0.004182249072686068,18.384776310850235,2,0.006562542048899662,18.384776310850235,1,1.5676868187522206,18.110770276274835,1,1.5689393671421092,18.027756377319946,+1
