@@ -16,7 +16,9 @@ import javax.swing.JPanel;
 
 import com.vnexit.fingerprint.datamodel.CannyEdgeDetector;
 import com.vnexit.fingerprint.datamodel.ExtractFeatured;
+import com.vnexit.fingerprint.datamodel.ExtractMinutiae;
 import com.vnexit.fingerprint.datamodel.ImageProcess;
+import com.vnexit.fingerprint.datamodel.Minutiae;
 import com.vnexit.fingerprint.datamodel.Pixel;
 import com.vnexit.fingerprint.datamodel.SplitThreshold;
 import com.vnexit.fingerprint.datamodel.ThinningProcess;
@@ -146,11 +148,13 @@ public class GaborFilter extends JPanel {
 
 		// Doc du lieu tu anh sau khi da nhan chap voi ma tran Sobel
 		Pixel[][] sobelX = imgProcess.getData(imgx);
+		sobelX = imgProcess.grayExchange(sobelX);
 		Pixel[][] sobelY = imgProcess.getData(imgy);
+		sobelY = imgProcess.grayExchange(sobelY);
 
 		// Tinh huong gradien cua diem anh
 		double teta[][] = getDirection(sobelX, sobelY);
-		gra = teta;
+		this.gra = teta;
 
 		bolocGabor(pi, teta);
 		repaint();
@@ -346,8 +350,33 @@ public class GaborFilter extends JPanel {
 		int[][] featured = ex.getFeatured(pi);
 		ft = featured;
 		imgProcess.setData(wr, pi);
-		writeFeatured(featured);
+//		writeFeatured(featured);
 		repaint();
-		exportFile2();
+//		exportFile2();
+		writeFileArff();
+
+	}
+	
+	public void writeFileArff() throws FileNotFoundException{
+		for (int i = 0; i < gra.length; i++) {
+			System.out.print("\n");
+			for (int j = 0; j < gra[0].length; j++) {
+				System.out.print(gra[i][j] + " ");
+			}
+		}
+		
+		ExtractMinutiae exTrac = new ExtractMinutiae(gra, ft);
+		Minutiae minu = exTrac.extractMinutiae();
+		
+		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".arff"));
+		FileOutputStream outFile2 = new FileOutputStream(new File(this.name + ".train"));
+		PrintStream out = new PrintStream(outFile);
+		PrintStream out2 = new PrintStream(outFile2);
+		
+		minu.writeHeader(out);
+		minu.writeData(out, "+1");
+		minu.writeData2(out2, "+1");
+		
+		out.close();
 	}
 }

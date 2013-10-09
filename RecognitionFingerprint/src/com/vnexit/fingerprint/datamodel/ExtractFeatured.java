@@ -27,7 +27,7 @@ public class ExtractFeatured {
 		}
 		if (numberPoint == 2)
 			return 1;
-		if (numberPoint > 3)
+		if (numberPoint ==4)
 			return 2;
 		return 0;
 	}
