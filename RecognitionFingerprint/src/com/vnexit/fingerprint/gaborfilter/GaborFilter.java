@@ -350,33 +350,33 @@ public class GaborFilter extends JPanel {
 		int[][] featured = ex.getFeatured(pi);
 		ft = featured;
 		imgProcess.setData(wr, pi);
-//		writeFeatured(featured);
+		// writeFeatured(featured);
 		repaint();
-//		exportFile2();
+		// exportFile2();
 		writeFileArff();
 
 	}
-	
-	public void writeFileArff() throws FileNotFoundException{
+
+	public void writeFileArff() throws FileNotFoundException {
 		for (int i = 0; i < gra.length; i++) {
 			System.out.print("\n");
 			for (int j = 0; j < gra[0].length; j++) {
 				System.out.print(gra[i][j] + " ");
 			}
 		}
-		
+
 		ExtractMinutiae exTrac = new ExtractMinutiae(gra, ft);
 		Minutiae minu = exTrac.extractMinutiae();
-		
+
 		FileOutputStream outFile = new FileOutputStream(new File(this.name + ".arff"));
 		FileOutputStream outFile2 = new FileOutputStream(new File(this.name + ".train"));
 		PrintStream out = new PrintStream(outFile);
 		PrintStream out2 = new PrintStream(outFile2);
-		
-		minu.writeHeader(out);
+
+		// minu.writeHeader(out);
 		minu.writeData(out, "+1");
 		minu.writeData2(out2, "+1");
-		
+
 		out.close();
 	}
 }

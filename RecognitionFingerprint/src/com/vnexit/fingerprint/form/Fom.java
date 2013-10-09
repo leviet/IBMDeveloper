@@ -3,7 +3,13 @@ package com.vnexit.fingerprint.form;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,6 +24,31 @@ public class Fom extends JFrame {
 	private final JFileChooser chooserImage = new JFileChooser();
 	FingerImage panel = new FingerImage();
 	GaborFilter panel_1 = new GaborFilter();
+	String[] dataDuyAnh = new String[20];
+	String[] dataHuy = new String[20];
+	String[] dataQuang = new String[20];
+	String[] dataDuong = new String[20];
+
+	public void genData() {
+		for (int i = 0; i < 10; i++) {
+			String anhl = "anh_l_1" + i;
+			dataDuyAnh[i] = anhl;
+			String anhr = "anh_r_1" + i;
+			dataDuyAnh[i + 10] = anhr;
+			String huy1 = "huy_r_1" + i;
+			dataHuy[i] = huy1;
+			String huy2 = "huy_r_2" + i;
+			dataHuy[i + 10] = huy2;
+			String duong1 = "duong_l_1" + i;
+			dataDuong[i] = duong1;
+			String duong2 = "duong_l_2" + i;
+			dataDuong[i + 10] = duong2;
+			String quang1 = "quang_r_1" + i;
+			dataQuang[i] = quang1;
+			String quang2 = "quang_r_2" + i;
+			dataQuang[i + 10] = quang2;
+		}
+	}
 
 	/**
 	 * Launch the application.
@@ -41,7 +72,7 @@ public class Fom extends JFrame {
 	 */
 	public Fom() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 769, 638);
+		setBounds(100, 100, 992, 638);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,7 +85,7 @@ public class Fom extends JFrame {
 		contentPane.add(panel_1);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 469, 721, 120);
+		panel_2.setBounds(10, 469, 936, 120);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
@@ -158,6 +189,36 @@ public class Fom extends JFrame {
 		});
 		btnNewButton_6.setBounds(580, 12, 131, 33);
 		panel_2.add(btnNewButton_6);
+
+		JButton btnRunData = new JButton("Run Data");
+		btnRunData.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					runData();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnRunData.setBounds(582, 71, 129, 33);
+		panel_2.add(btnRunData);
+
+		JButton btnNewButton_7 = new JButton("Create File");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					exportDataArff();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_7.setBounds(732, 12, 145, 39);
+		panel_2.add(btnNewButton_7);
 		btnGrayChange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -168,5 +229,39 @@ public class Fom extends JFrame {
 
 	protected void grayChangeActionPerformed(ActionEvent evt) {
 		panel_1.tests();
+	}
+
+	public void runData() throws FileNotFoundException {
+		genData();
+		for (int i = 0; i < 20; i++) {
+			panel.rePaintLink(dataDuong[i] + ".jpg");
+			panel_1.rePaintLink(dataDuong[i] + ".jpg");
+			runFuntion();
+		}
+	}
+
+	public void runFuntion() throws FileNotFoundException {
+		panel_1.tests();
+		panel_1.Gabor();
+		panel_1.threshold();
+		panel_1.thinning();
+		panel_1.extractFeatured();
+	}
+
+	public void exportDataArff() throws IOException {
+		genData();
+		FileOutputStream outFile = new FileOutputStream(new File("DuyAnh-Duong.arff"));
+		PrintStream out = new PrintStream(outFile);
+		for (int i = 0; i < 10; i++) {
+			BufferedReader reader = new BufferedReader(new FileReader(dataDuyAnh[i] + ".jpg.arff"));
+			out.println(reader.readLine());
+			reader.close();
+		}
+		for (int i = 0; i < 10; i++) {
+			BufferedReader reader = new BufferedReader(new FileReader(dataDuong[i] + ".jpg.arff"));
+			out.println(reader.readLine());
+			reader.close();
+		}
+		out.close();
 	}
 }
