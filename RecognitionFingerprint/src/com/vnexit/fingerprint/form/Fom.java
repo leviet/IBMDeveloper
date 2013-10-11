@@ -250,14 +250,14 @@ public class Fom extends JFrame {
 
 	public void exportDataArff() throws IOException {
 		genData();
-		FileOutputStream outFile = new FileOutputStream(new File("DuyAnh-Duong.arff"));
+		FileOutputStream outFile = new FileOutputStream(new File("DuyAnh-Duong2.arff"));
 		PrintStream out = new PrintStream(outFile);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 10; i < 20; i++) {
 			BufferedReader reader = new BufferedReader(new FileReader(dataDuyAnh[i] + ".jpg.arff"));
 			out.println(reader.readLine());
 			reader.close();
 		}
-		for (int i = 0; i < 10; i++) {
+		for (int i = 10; i < 20; i++) {
 			BufferedReader reader = new BufferedReader(new FileReader(dataDuong[i] + ".jpg.arff"));
 			out.println(reader.readLine());
 			reader.close();
