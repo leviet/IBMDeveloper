@@ -28,6 +28,7 @@ public class Fom extends JFrame {
 	String[] dataHuy = new String[20];
 	String[] dataQuang = new String[20];
 	String[] dataDuong = new String[20];
+	String[] dataViet = new String[20];
 
 	public void genData() {
 		for (int i = 0; i < 10; i++) {
@@ -47,6 +48,10 @@ public class Fom extends JFrame {
 			dataQuang[i] = quang1;
 			String quang2 = "quang_r_2" + i;
 			dataQuang[i + 10] = quang2;
+			String vietl = "viet_l_1" + i;
+			dataViet[i] = vietl;
+			String vietr = "viet_r_1" + i;
+			dataViet[i + 10] = vietr;
 		}
 	}
 
@@ -234,8 +239,8 @@ public class Fom extends JFrame {
 	public void runData() throws FileNotFoundException {
 		genData();
 		for (int i = 0; i < 20; i++) {
-			panel.rePaintLink(dataDuong[i] + ".jpg");
-			panel_1.rePaintLink(dataDuong[i] + ".jpg");
+			panel.rePaintLink(dataViet[i] + ".jpg");
+			panel_1.rePaintLink(dataViet[i] + ".jpg");
 			runFuntion();
 		}
 	}
@@ -250,18 +255,18 @@ public class Fom extends JFrame {
 
 	public void exportDataArff() throws IOException {
 		genData();
-		FileOutputStream outFile = new FileOutputStream(new File("DuyAnh-Duong2.arff"));
+		FileOutputStream outFile = new FileOutputStream(new File("Viet.arff"));
 		PrintStream out = new PrintStream(outFile);
-		for (int i = 10; i < 20; i++) {
-			BufferedReader reader = new BufferedReader(new FileReader(dataDuyAnh[i] + ".jpg.arff"));
+		for (int i = 0; i < 20; i++) {
+			BufferedReader reader = new BufferedReader(new FileReader(dataViet[i] + ".jpg.arff"));
 			out.println(reader.readLine());
 			reader.close();
 		}
-		for (int i = 10; i < 20; i++) {
-			BufferedReader reader = new BufferedReader(new FileReader(dataDuong[i] + ".jpg.arff"));
-			out.println(reader.readLine());
-			reader.close();
-		}
+		// for (int i = 10; i < 20; i++) {
+		// BufferedReader reader = new BufferedReader(new FileReader(dataDuong[i] + ".jpg.arff"));
+		// out.println(reader.readLine());
+		// reader.close();
+		// }
 		out.close();
 	}
 }
