@@ -14,10 +14,12 @@ import java.io.PrintStream;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.vnexit.fingerprint.gaborfilter.GaborFilter;
+import com.vnexit.fingerprint.svm.svm_predict;
 
 public class Fom extends JFrame {
 	private final JPanel contentPane;
@@ -29,6 +31,7 @@ public class Fom extends JFrame {
 	String[] dataQuang = new String[20];
 	String[] dataDuong = new String[20];
 	String[] dataViet = new String[20];
+	String name;
 
 	public void genData() {
 		for (int i = 0; i < 10; i++) {
@@ -224,6 +227,25 @@ public class Fom extends JFrame {
 		});
 		btnNewButton_7.setBounds(732, 12, 145, 39);
 		panel_2.add(btnNewButton_7);
+
+		JButton btnNewButton_8 = new JButton("Match");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					if ("no".equals(Match())) {
+						JOptionPane.showMessageDialog(null, "Khong tim thay doi tuong trong he thong");
+					} else {
+						JOptionPane.showMessageDialog(null, "Tim thay doi tuong: " + Match());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_8.setBounds(723, 63, 154, 45);
+		panel_2.add(btnNewButton_8);
 		btnGrayChange.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -255,10 +277,10 @@ public class Fom extends JFrame {
 
 	public void exportDataArff() throws IOException {
 		genData();
-		FileOutputStream outFile = new FileOutputStream(new File("Viet.arff"));
+		FileOutputStream outFile = new FileOutputStream(new File("Viet.train"));
 		PrintStream out = new PrintStream(outFile);
 		for (int i = 0; i < 20; i++) {
-			BufferedReader reader = new BufferedReader(new FileReader(dataViet[i] + ".jpg.arff"));
+			BufferedReader reader = new BufferedReader(new FileReader("./Data/bassic/" + dataViet[i] + ".jpg.train"));
 			out.println(reader.readLine());
 			reader.close();
 		}
@@ -268,5 +290,23 @@ public class Fom extends JFrame {
 		// reader.close();
 		// }
 		out.close();
+	}
+
+	public String Match() throws IOException {
+		String[] dataBase = { "VietTrain.arff.model", "AnhTrain.arff.model", "DuongTrain.arff.model", "HuyTrain.arff.model", "QuangTrain.arff.model" };
+		String res = "no";
+		int k = 0;
+		while ("no".equals(res) && k < 5) {
+			String[] options = { panel_1.name + ".train", dataBase[k], "testN.out" };
+			svm_predict t = new svm_predict();
+			t.main(options);
+			BufferedReader reader = new BufferedReader(new FileReader("testN.out"));
+			String resStr = reader.readLine();
+			if (Double.parseDouble(resStr) > 0) {
+				res = dataBase[k];
+			}
+			k++;
+		}
+		return res;
 	}
 }

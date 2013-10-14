@@ -30,7 +30,7 @@ public class GaborFilter extends JPanel {
 	WritableRaster wr;
 	Graphics2D graphics;
 	double[][] gra;
-	String name;
+	public static String name;
 	int[][] ft = new int[100][100];
 
 	public GaborFilter() {
