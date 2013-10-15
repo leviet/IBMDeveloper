@@ -27,7 +27,7 @@ public class ExtractMinutiae {
 		}
 		return res;
 	}
-	
+
 	public int[] convertArray(int[][] array) {
 		int[] res = new int[array.length * array[0].length];
 		int k = 0;
@@ -65,17 +65,17 @@ public class ExtractMinutiae {
 					for (int j2 = 0; j2 < featured.length; j2++) {
 						for (int l = 0; l < featured[0].length; l++) {
 							if ((j2 != i || l != j) && featured[j2][l] == 2) {
-								double tmp = Math.sqrt(Math.pow(i - j2, 2)
-										+ Math.pow(j - l, 2));
+								double tmp = Math.sqrt(Math.pow(i - j2, 2) + Math.pow(j - l, 2));
 								if (min > tmp) {
 									min = tmp;
 								}
 							}
 						}
 					}
-					if(min<9999)
-					res[k] = min;
-					else res[k] = 0;
+					if (min < 9999)
+						res[k] = min;
+					else
+						res[k] = 0;
 				} else {
 					res[k] = 0;
 				}
@@ -84,30 +84,30 @@ public class ExtractMinutiae {
 		}
 		return res;
 	}
-	
-	public Minutiae extractMinutiae(){
+
+	public Minutiae extractMinutiae() {
 		double[] distance = findNeighbor(mFeatured);
 		int[] tick = new int[distance.length];
 		for (int i = 0; i < distance.length; i++) {
 			tick[i] = i;
 		}
-		
+
 		sortArray(distance, tick);
 		double[] te = convertArray(mTeta);
 		int[] ty = convertArray(mFeatured);
-		
+
 		double[] mTa = new double[mNumber];
 		double[] mDis = new double[mNumber];
 		int[] mTy = new int[mNumber];
-		
+
 		for (int i = 0; i < mNumber; i++) {
 			mDis[i] = distance[i];
 			mTa[i] = te[tick[i]];
 			mTy[i] = ty[tick[i]];
 		}
-		
+
 		Minutiae minutiae = new Minutiae(mTy, mTa, mDis);
-		
+
 		return minutiae;
 	}
 }

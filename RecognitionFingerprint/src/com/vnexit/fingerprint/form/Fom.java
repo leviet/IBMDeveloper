@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -260,10 +262,18 @@ public class Fom extends JFrame {
 
 	public void runData() throws FileNotFoundException {
 		genData();
-		for (int i = 0; i < 20; i++) {
-			panel.rePaintLink(dataViet[i] + ".jpg");
-			panel_1.rePaintLink(dataViet[i] + ".jpg");
-			runFuntion();
+		List<String[]> listData = new LinkedList<String[]>();
+		listData.add(dataDuong);
+		listData.add(dataDuyAnh);
+		listData.add(dataHuy);
+		listData.add(dataQuang);
+		// listData.add(dataViet);
+		for (String[] item : listData) {
+			for (int i = 0; i < 20; i++) {
+				panel.rePaintLink(item[i] + ".jpg");
+				panel_1.rePaintLink(item[i] + ".jpg");
+				runFuntion();
+			}
 		}
 	}
 
@@ -277,19 +287,22 @@ public class Fom extends JFrame {
 
 	public void exportDataArff() throws IOException {
 		genData();
-		FileOutputStream outFile = new FileOutputStream(new File("Viet.train"));
-		PrintStream out = new PrintStream(outFile);
-		for (int i = 0; i < 20; i++) {
-			BufferedReader reader = new BufferedReader(new FileReader("./Data/bassic/" + dataViet[i] + ".jpg.train"));
-			out.println(reader.readLine());
-			reader.close();
+		List<String[]> listData = new LinkedList<String[]>();
+		listData.add(dataDuong);
+		listData.add(dataDuyAnh);
+		listData.add(dataHuy);
+		listData.add(dataQuang);
+		listData.add(dataViet);
+		for (String[] item : listData) {
+			FileOutputStream outFile = new FileOutputStream(new File("./newdata/tonghop/" + item[0]));
+			PrintStream out = new PrintStream(outFile);
+			for (int i = 0; i < 20; i++) {
+				BufferedReader reader = new BufferedReader(new FileReader("./newdata/" + item[i] + ".jpg.train"));
+				out.println(reader.readLine());
+				reader.close();
+			}
+			out.close();
 		}
-		// for (int i = 10; i < 20; i++) {
-		// BufferedReader reader = new BufferedReader(new FileReader(dataDuong[i] + ".jpg.arff"));
-		// out.println(reader.readLine());
-		// reader.close();
-		// }
-		out.close();
 	}
 
 	public String Match() throws IOException {
@@ -297,7 +310,7 @@ public class Fom extends JFrame {
 		String res = "no";
 		int k = 0;
 		while ("no".equals(res) && k < 5) {
-			String[] options = { panel_1.name + ".train", dataBase[k], "testN.out" };
+			String[] options = { "./newdata/" + panel_1.name + ".train", dataBase[k], "testN.out" };
 			svm_predict t = new svm_predict();
 			t.main(options);
 			BufferedReader reader = new BufferedReader(new FileReader("testN.out"));
@@ -306,6 +319,7 @@ public class Fom extends JFrame {
 				res = dataBase[k];
 			}
 			k++;
+			reader.close();
 		}
 		return res;
 	}

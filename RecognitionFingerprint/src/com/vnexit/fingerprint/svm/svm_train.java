@@ -81,11 +81,11 @@ public class svm_train {
 		}
 	}
 
-	// public static void main(String argv[]) throws IOException {
-	// svm_train t = new svm_train();
-	// String[] options = { "./Data/VietTrain.arff" };
-	// t.run(options);
-	// }
+	public static void main(String argv[]) throws IOException {
+		svm_train t = new svm_train();
+		String[] options = { "./newdata/tonghop/AnhTrain.arff" };
+		t.run(options);
+	}
 
 	private static double atof(String s) {
 		double d = Double.valueOf(s).doubleValue();
