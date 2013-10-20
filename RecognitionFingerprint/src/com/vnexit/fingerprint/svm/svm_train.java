@@ -3,6 +3,8 @@ package com.vnexit.fingerprint.svm;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -22,6 +24,50 @@ public class svm_train {
 	private String error_msg;
 	private int cross_validation;
 	private int nr_fold;
+	String[] dataDuyAnh = new String[20];
+	String[] dataHuy = new String[20];
+	String[] dataQuang = new String[20];
+	String[] dataDuong = new String[20];
+	String[] dataViet = new String[20];
+	List<String[]> listData = new LinkedList<String[]>();
+
+	public void genData() {
+		for (int i = 0; i < 10; i++) {
+			String anhl = "anh_l_1" + i;
+			dataDuyAnh[i] = anhl;
+			String anhr = "anh_r_1" + i;
+			dataDuyAnh[i + 10] = anhr;
+			String huy1 = "huy_r_1" + i;
+			dataHuy[i] = huy1;
+			String huy2 = "huy_r_2" + i;
+			dataHuy[i + 10] = huy2;
+			String duong1 = "duong_l_1" + i;
+			dataDuong[i] = duong1;
+			String duong2 = "duong_l_2" + i;
+			dataDuong[i + 10] = duong2;
+			String quang1 = "quang_r_1" + i;
+			dataQuang[i] = quang1;
+			String quang2 = "quang_r_2" + i;
+			dataQuang[i + 10] = quang2;
+			String vietl = "viet_l_1" + i;
+			dataViet[i] = vietl;
+			String vietr = "viet_r_1" + i;
+			dataViet[i + 10] = vietr;
+		}
+		listData.add(dataDuong);
+		listData.add(dataDuyAnh);
+		listData.add(dataHuy);
+		listData.add(dataQuang);
+		listData.add(dataViet);
+	}
+
+	/**
+	 * 
+	 */
+	public svm_train() {
+		super();
+		genData();
+	}
 
 	private static svm_print_interface svm_print_null = new svm_print_interface() {
 		@Override
@@ -81,10 +127,13 @@ public class svm_train {
 		}
 	}
 
-	public static void main(String argv[]) throws IOException {
-		svm_train t = new svm_train();
-		String[] options = { "./newdata/tonghop/AnhTrain.arff" };
-		t.run(options);
+	public void main(String argv[]) throws IOException {
+		for (String[] item : listData) {
+			String[] options = { "./newdata/tonghop/" + item[0] + ".train" };
+			String[] options2 = { "./newdata/tonghop/" + item[10] + ".train" };
+			run(options);
+			run(options2);
+		}
 	}
 
 	private static double atof(String s) {

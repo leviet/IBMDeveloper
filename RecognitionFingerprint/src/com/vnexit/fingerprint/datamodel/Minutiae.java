@@ -21,6 +21,14 @@ public class Minutiae {
 		this.mDistance = mDistance;
 	}
 
+	/**
+	 * 
+	 */
+	public Minutiae() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public static int getmNumber() {
 		return mNumber;
 	}
@@ -44,7 +52,7 @@ public class Minutiae {
 			out.print("@attribute gradienPoint" + i + " numeric\n");
 			out.print("@attribute distancePoint" + i + " numeric\n");
 		}
-		out.print("@attribute class {A, NOT-A}\n\n");
+		out.print("@attribute class {+1, -1}\n\n");
 		out.print("@data\n");
 	}
 
@@ -54,7 +62,7 @@ public class Minutiae {
 			out.print(mTeta[i] + ",");
 			out.print(mDistance[i] + ",");
 		}
-		out.print(clas);
+		// out.print(clas);
 	}
 
 	public void writeData2(PrintStream out, String label) {
