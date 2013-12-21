@@ -154,6 +154,7 @@ public class GaborFilter extends JPanel {
 
 		// Tinh huong gradien cua diem anh
 		double teta[][] = getDirection(sobelX, sobelY);
+		// teta = lamTron(teta);
 		this.gra = teta;
 
 		bolocGabor(pi, teta);
@@ -250,6 +251,34 @@ public class GaborFilter extends JPanel {
 				pix[i][j] = new Pixel(a, a, a);
 			}
 		}
+	}
+
+	public double[][] getGausmaxtrix() {
+		double[][] matrix = { { 1 / 273, 4 / 273, 7 / 273, 4 / 273, 1 / 273 }, { 4 / 273, 16 / 273, 26 / 273, 16 / 273, 4 / 273 }, { 7 / 273, 26 / 273, 41 / 273, 26 / 273, 7 / 273 }, { 4 / 273, 16 / 273, 26 / 273, 16 / 273, 4 / 273 }, { 1 / 273, 4 / 273, 7 / 273, 4 / 273, 1 / 273 } };
+		return matrix;
+	}
+
+	public double[][] lamTron(double[][] oldTeta) {
+		double tetaTmp, xTmp, yTmp;
+		double[][] newTeta = new double[oldTeta.length][oldTeta[0].length];
+		double[][] gausMatrix = getGausmaxtrix();
+		for (int i = 2; i < oldTeta.length - 2; i++) {
+			for (int j = 2; j < oldTeta[0].length - 2; j++) {
+				tetaTmp = 0;
+				xTmp = 0;
+				yTmp = 0;
+				for (int p = -2; p <= 2; p++) {
+					for (int q = -2; q <= 2; q++) {
+						xTmp += gausMatrix[p + 2][q + 2] * Math.cos(2 * oldTeta[i + p][j + q]);
+						yTmp += gausMatrix[p + 2][q + 2] * Math.sin(2 * oldTeta[i + p][j + q]);
+					}
+				}
+				tetaTmp = Math.atan2(xTmp, yTmp) / 2;
+				newTeta[i][j] = tetaTmp;
+			}
+		}
+
+		return newTeta;
 	}
 
 	public void thinning() throws FileNotFoundException {

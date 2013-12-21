@@ -214,7 +214,7 @@ public class Fom extends JFrame {
 				}
 			}
 		});
-		btnRunData.setBounds(582, 71, 129, 33);
+		btnRunData.setBounds(582, 75, 129, 33);
 		panel_2.add(btnRunData);
 
 		JButton btnNewButton_7 = new JButton("Create File");
@@ -248,7 +248,7 @@ public class Fom extends JFrame {
 				}
 			}
 		});
-		btnNewButton_8.setBounds(723, 63, 154, 45);
+		btnNewButton_8.setBounds(732, 72, 145, 39);
 		panel_2.add(btnNewButton_8);
 
 		JButton btnExportTest = new JButton("Export Test");
@@ -279,7 +279,7 @@ public class Fom extends JFrame {
 				}
 			}
 		});
-		btnTranningData.setBounds(908, 63, 135, 33);
+		btnTranningData.setBounds(899, 69, 144, 39);
 		panel_2.add(btnTranningData);
 		btnGrayChange.addActionListener(new ActionListener() {
 			@Override
@@ -432,16 +432,22 @@ public class Fom extends JFrame {
 					out.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[1] + ".jpg.train"));
 					out.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[2] + ".jpg.train"));
+					// out.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[10] + ".jpg.train"));
 					out.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[11] + ".jpg.train"));
 					out.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[12] + ".jpg.train"));
+					// out.println("-1 " + reader.readLine());
 					reader.close();
 				} else {
 					reader = new BufferedReader(new FileReader("./newdata/" + item[10] + ".jpg.train"));
 					out.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[11] + ".jpg.train"));
 					out.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[12] + ".jpg.train"));
+					// out.println("-1 " + reader.readLine());
 					reader.close();
 				}
 			}
@@ -460,16 +466,22 @@ public class Fom extends JFrame {
 					out2.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[1] + ".jpg.train"));
 					out2.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[2] + ".jpg.train"));
+					// out2.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[10] + ".jpg.train"));
 					out2.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[11] + ".jpg.train"));
 					out2.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[12] + ".jpg.train"));
+					// out2.println("-1 " + reader.readLine());
 					reader.close();
 				} else {
 					reader = new BufferedReader(new FileReader("./newdata/" + item[0] + ".jpg.train"));
 					out2.println("-1 " + reader.readLine());
 					reader = new BufferedReader(new FileReader("./newdata/" + item[1] + ".jpg.train"));
 					out2.println("-1 " + reader.readLine());
+					// reader = new BufferedReader(new FileReader("./newdata/" + item[2] + ".jpg.train"));
+					// out2.println("-1 " + reader.readLine());
 					reader.close();
 				}
 			}

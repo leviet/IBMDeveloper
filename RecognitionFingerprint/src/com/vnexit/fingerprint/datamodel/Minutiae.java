@@ -3,7 +3,7 @@ package com.vnexit.fingerprint.datamodel;
 import java.io.PrintStream;
 
 public class Minutiae {
-	private static int mNumber = 20;
+	private static int mNumber = 15;
 	private int[] mType = new int[mNumber];
 	private double[] mTeta = new double[mNumber];
 	private double[] mDistance = new double[mNumber];

@@ -1,7 +1,7 @@
 package com.vnexit.fingerprint.datamodel;
 
 public class ExtractMinutiae {
-	private static int mNumber = 20;
+	private static int mNumber = 15;
 	private final double[][] mTeta;
 	private final int[][] mFeatured;
 
